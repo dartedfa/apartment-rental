@@ -1,11 +1,32 @@
 {
   "name": "apartment-rental-server",
   "version": "1.0.0",
-  "description": "Toptal assignment",
+  "author": "Davit Varamashvili <davit.varamashvili@gmail.com>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "env-cmd -f config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f config/test.env jest --watch --runInBand",
+    "lint": "eslint . --cache-location node_modules/.cache/eslint",
+    "format": "prettier --write \"**/*.+(js|json)\""
   },
-  "author": "Davit Varamashvili",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "eslint": "^7.21.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.0",
+    "validator": "^13.5.2"
+  }
 }
