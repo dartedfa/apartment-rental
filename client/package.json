@@ -14,8 +14,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "serve": "serve --no-clipboard --single --listen 8811 build",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "eslint . --cache-location node_modules/.cache/eslint",
+    "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
