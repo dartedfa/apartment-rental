@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<svg style="enable-background:new 0 0 64 64;" version="1.1" viewBox="0 0 64 64" xml:space="preserve"
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+    <g id="guides"/>
+    <g id="_x32_5._checking"/>
+    <g id="_x32_4._faucet"/>
+    <g id="_x32_3._drink"/>
+    <g id="_x32_2._hotel_key"/>
+    <g id="_x32_1._rating"/>
+    <g id="_x32_0._map"/>
+    <g id="_x31_9._wifi"/>
+    <g id="_x31_8._swimming_pool"/>
+    <g id="_x31_7._booking"/>
+    <g id="_x31_6._pasport"/>
+    <g id="_x31_5._coffee_cup"/>
+    <g id="_x31_4._bathtub"/>
+    <g id="_x31_3._bedroom"/>
+    <g id="_x31_2._air_conditioner"/>
+    <g id="_x31_1._breakfast"/>
+    <g id="_x31_0._parking_lot"/>
+    <g id="_x39_._room_service"/>
+    <g id="_x38_._elevator"/>
+    <g id="_x37_._reception"/>
+    <g id="_x36_._relax"/>
+    <g id="_x35_._car_rental"/>
+    <g id="_x34_._rental"><polyline class="st0" points="37.9997826,43 48,43 48,60 16,60 16,43 26.0000916,43  "/>
+        <polyline class="st0" points="25.0002632,35 17,35 13,43 25.9998817,43  "/>
+        <polyline class="st0" points="37.999794,43 51,43 47,35 39.0003853,35  "/>
+        <polyline class="st0" points="26,43 32,31 38,43  "/>
+        <polyline class="st0" points="28,39 23,39 32,23 41,39 36,39  "/>
+        <circle class="st0" cx="32" cy="43" r="2"/>
+        <rect class="st0" height="10" width="6" x="29" y="50"/>
+        <rect class="st0" height="5" width="5" x="39" y="50"/>
+        <rect class="st0" height="5" width="5" x="20" y="50"/>
+        <path class="st0" d="M18,14V7h2c1.1045704,0,2,0.8954306,2,2s-0.8954296,2-2,2h-1l3,3"/>
+        <line class="st0" x1="26" x2="26" y1="7" y2="14"/>
+        <line class="st0" x1="30" x2="26" y1="14" y2="14"/>
+        <line class="st0" x1="30" x2="26" y1="10" y2="10"/>
+        <line class="st0" x1="30" x2="26" y1="7" y2="7"/>
+        <polyline class="st0" points="34,14 34,7 38,14 38,7  "/>
+        <line class="st0" x1="42" x2="46" y1="7" y2="7"/>
+        <line class="st0" x1="44" x2="44" y1="7" y2="14"/>
+        <rect class="st0" height="13" width="36" x="14" y="4"/></g>
+    <g id="_x33_._smoking_area"/>
+    <g id="_x32_._exercise"/>
+    <g id="_x31_._luggage"/>
+</svg>
