@@ -5,7 +5,7 @@ import Logo from './components/atoms/Logo'
 function UnauthenticatedApp() {
   return (
     <div>
-      <Logo width="200" height="20  0" />
+      <Logo width="200" height="200" />
       <h1>Apartment rental</h1>
       <Button>Login</Button>
       <Button>Register</Button>
