@@ -1,7 +1,5 @@
 # This project is a Toptal assignment called Apartment rental.
 
-## Available Scripts
-
 ## in the client directory, you can run:
 
 ### `yarn start`
