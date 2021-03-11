@@ -1,0 +1,11 @@
+{
+  "name": "apartment-rental-server",
+  "version": "1.0.0",
+  "description": "Toptal assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Davit Varamashvili",
+  "license": "MIT"
+}
