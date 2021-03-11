@@ -4,7 +4,7 @@ import AuthenticatedApp from './authenticated-app'
 import UnauthenticatedApp from './unauthenticated-app'
 
 function App() {
-  const user = null
+  const user = true
   return user ? <AuthenticatedApp /> : <UnauthenticatedApp />
 }
 
