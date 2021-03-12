@@ -71,7 +71,7 @@ userSchema.statics.findByCredentials = async function(email, password) {
     throw new Error('Unable to login.')
   }
 
-  const isMatch = await bcrypt.compare(password, user.password) || user.userType !== 'regular'
+  const isMatch = await bcrypt.compare(password, user.password)
 
   if (!isMatch) {
     throw new Error('Unable to login')
@@ -90,11 +90,12 @@ userSchema.pre('save', async function(next) {
   next()
 })
 
-userSchema.methods.generateAuthToken = async function() {
+userSchema.methods.generateAuthToken = async function(idToken) {
   const user = this
+
   const token = user.userType === 'regular'
     ? jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
-    : user.idToken
+    : idToken
 
   user.tokens = user.tokens.concat({token})
   await user.save()

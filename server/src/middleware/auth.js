@@ -1,11 +1,29 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
+const axios = require('axios');
+
+async function verifyGoogleToken(accessToken) {
+  const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
+  const response = await axios.get(url)
+  const email = response.data.email
+  return email
+}
+
 const auth = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '')
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
+    const tokenWithData = req.header('Authorization').replace('Bearer ', '')
+    let user
+    const [token, type] = tokenWithData.split('type=')
+
+    if (type === 'google') {
+      const email = await verifyGoogleToken(token)
+      user = await User.findOne({email, 'tokens.token': token})
+    } else {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      user = await User.findOne({_id: decoded._id, 'tokens.token': token})
+    }
+
 
     if (!user) {
       throw new Error()

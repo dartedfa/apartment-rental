@@ -18,6 +18,22 @@ router.post('/register', handleBasicAuth, async (req, res) => {
   }
 })
 
+router.post('/third-party-auth', async (req, res) => {
+  try {
+    let user = await User.findOne({email: req.body.email})
+
+    if (!user) {
+      user = new User({...req.body, userType: req.body.userType})
+    }
+
+    const token = await user.generateAuthToken(req.body.idToken)
+
+    res.status(201).send({user, token})
+  } catch (error) {
+    return res.status(400).send(error)
+  }
+})
+
 router.post('/login', handleBasicAuth, async (req, res) => {
   try {
     const user = await User.findByCredentials(req.body.email, req.body.password)
