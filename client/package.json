@@ -33,10 +33,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start HTTPS=true",
     "serve": "serve --no-clipboard --single --listen 8811 build",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "dev": "HTTPS=true yarn start",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\""
   },
