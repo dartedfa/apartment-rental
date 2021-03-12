@@ -6,8 +6,13 @@ const axios = require('axios');
 async function verifyGoogleToken(accessToken) {
   const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
   const response = await axios.get(url)
-  const email = response.data.email
-  return email
+  return response.data.user_id
+}
+
+async function verifyFacebookToken(accessToken) {
+  const url = `https://graph.facebook.com/me?access_token=${accessToken}`
+  const response = await axios.get(url)
+  return response.data.id
 }
 
 const auth = async (req, res, next) => {
@@ -17,8 +22,11 @@ const auth = async (req, res, next) => {
     const [token, type] = tokenWithData.split('type=')
 
     if (type === 'google') {
-      const email = await verifyGoogleToken(token)
-      user = await User.findOne({email, 'tokens.token': token})
+      const externalId = await verifyGoogleToken(token)
+      user = await User.findOne({externalId, 'tokens.token': token})
+    } else if (type === 'facebook') {
+      const externalId = await verifyFacebookToken(token)
+      user = await User.findOne({externalId, 'tokens.token': token})
     } else {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
       user = await User.findOne({_id: decoded._id, 'tokens.token': token})

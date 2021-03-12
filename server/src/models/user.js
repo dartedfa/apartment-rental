@@ -52,6 +52,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'regular',
   },
+  externalId: {
+    type: String,
+  }
 })
 
 userSchema.methods.toJSON = function() {

@@ -23,7 +23,9 @@ router.post('/third-party-auth', async (req, res) => {
     let user = await User.findOne({email: req.body.email})
 
     if (!user) {
-      user = new User({...req.body, userType: req.body.userType})
+      const externalId = req.body.externalId
+
+      user = new User({...req.body, userType: req.body.userType, externalId})
     }
 
     const token = await user.generateAuthToken(req.body.idToken)
