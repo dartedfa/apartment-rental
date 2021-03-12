@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from './components/atoms/Button'
 import Logo from './components/atoms/Logo'
+import GoogleButton from './components/atoms/GoogleButton'
 
 function UnauthenticatedApp() {
   return (
@@ -9,6 +10,7 @@ function UnauthenticatedApp() {
       <h1>Apartment rental</h1>
       <Button>Login</Button>
       <Button>Register</Button>
+      <GoogleButton />
     </div>
   )
 }
