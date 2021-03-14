@@ -2,7 +2,7 @@ const localStorageKey = '__auth_token__'
 const authURL = process.env.REACT_APP_AUTH_URL
 
 function getToken() {
-  return window.localStorageKey.getItem(localStorageKey)
+  return window.localStorage.getItem(localStorageKey)
 }
 
 function handleUserResponse({user, token}) {
@@ -14,15 +14,19 @@ function login({email, password}) {
   return client('login', {email, password}).then(handleUserResponse)
 }
 
-function register({email, password}) {
-  return client('register', {email, password}).then(handleUserResponse)
+function register({email, password, ...rest}) {
+  return client('register', {email, password, ...rest}).then(handleUserResponse)
+}
+
+function handleThirdPartyAuthentication({email, ...rest}) {
+  return client('third-party-auth', {email, ...rest}).then(handleUserResponse)
 }
 
 function logout() {
   window.localStorage.removeItem(localStorageKey)
 }
 
-async function client(endpoint, {email, password, ...body}) {
+async function client(endpoint, {email, password = '', ...body}) {
   const config = {
     method: 'POST',
     headers: {
@@ -42,4 +46,4 @@ async function client(endpoint, {email, password, ...body}) {
   })
 }
 
-export {getToken, register, login, logout}
+export {getToken, register, login, handleThirdPartyAuthentication, logout}

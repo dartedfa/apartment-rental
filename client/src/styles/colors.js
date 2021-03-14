@@ -1,3 +1,12 @@
 export const base = '#fff'
 export const text = '#434449'
+export const green = `rgb(27 128 109)`
+export const orange = `rgb(251 175 53)`
+export const red = `rgb(207 7 23)`
 export const gray = '#f1f2f7'
+export const gray10 = '#f1f1f4'
+export const gray20 = '#e4e5e9'
+export const gray80 = '#6f7077'
+export const indigo = '#3f51b5'
+export const indigoDarken10 = '#364495'
+export const indigoLighten80 = '#b7c1f8'

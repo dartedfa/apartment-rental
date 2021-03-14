@@ -18,7 +18,7 @@ router.post('/register', handleBasicAuth, async (req, res) => {
   }
 })
 
-router.post('/third-party-auth', async (req, res) => {
+router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
   try {
     let user = await User.findOne({email: req.body.email})
 
@@ -28,7 +28,8 @@ router.post('/third-party-auth', async (req, res) => {
       user = new User({...req.body, userType: req.body.userType, externalId})
     }
 
-    const token = await user.generateAuthToken(req.body.idToken)
+    let token = await user.generateAuthToken(req.body.accessToken)
+    token += `type=${req.body.userType}`
 
     res.status(201).send({user, token})
   } catch (error) {
@@ -49,7 +50,7 @@ router.post('/login', handleBasicAuth, async (req, res) => {
 
 router.post('/logout', auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
+    req.user.tokens = req.user.tokens.filter(token => {
       return token.token !== req.token
     })
     await req.user.save()

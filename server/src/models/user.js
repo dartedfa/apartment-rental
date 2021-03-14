@@ -27,23 +27,27 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 7,
     trim: true,
-    required: function() {
+    required: function () {
       return this.userType === 'regular'
     },
     validate(value) {
-      if (value.toLowerCase().includes('password')) {
+      if (
+        value.toLowerCase().includes('password') ||
+        (value.length < 7 && this.userType === 'regular')
+      ) {
         throw new Error('Please provide a strong password.')
       }
     },
   },
-  tokens: [{
-    token: {
-      type: String,
-      required: true,
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
     },
-  }],
+  ],
   role: {
     type: 'Number',
     default: 0,
@@ -54,10 +58,10 @@ const userSchema = new mongoose.Schema({
   },
   externalId: {
     type: String,
-  }
+  },
 })
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   const user = this
   const userObject = user.toObject()
 
@@ -67,7 +71,7 @@ userSchema.methods.toJSON = function() {
   return userObject
 }
 
-userSchema.statics.findByCredentials = async function(email, password) {
+userSchema.statics.findByCredentials = async function (email, password) {
   const user = await User.findOne({email})
 
   if (!user) {
@@ -83,7 +87,7 @@ userSchema.statics.findByCredentials = async function(email, password) {
   return user
 }
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   const user = this
 
   if (user.isModified('password') && user.userType === 'regular') {
@@ -93,12 +97,13 @@ userSchema.pre('save', async function(next) {
   next()
 })
 
-userSchema.methods.generateAuthToken = async function(idToken) {
+userSchema.methods.generateAuthToken = async function (accessToken) {
   const user = this
 
-  const token = user.userType === 'regular'
-    ? jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
-    : idToken
+  const token =
+    user.userType === 'regular'
+      ? jwt.sign({_id: user._id.toString()}, process.env.JWT_SECRET)
+      : accessToken
 
   user.tokens = user.tokens.concat({token})
   await user.save()

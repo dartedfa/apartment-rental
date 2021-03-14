@@ -1,7 +1,38 @@
-import React from 'react'
+import styled from '@emotion/styled/macro'
+import * as colors from 'styles/colors'
 
-function Button({children, ...props}) {
-  return <button {...props}>{children}</button>
+const buttonVariants = {
+  primary: {backgroundColor: colors.green},
+  secondary: {backgroundColor: colors.orange},
+  tertiary: {backgroundColor: colors.gray10, color: colors.text},
+  error: {backgroundColor: colors.red},
 }
 
-export default Button
+export const Button = styled.button(
+  {
+    border: 0,
+    borderRadius: 4,
+    color: colors.base,
+    cursor: 'pointer',
+    lineHeight: 1,
+    padding: '1.5rem 2rem',
+    fontSize: '1.5rem',
+  },
+  ({variant}) => buttonVariants[variant],
+)
+
+export const CircleButton = styled.button({
+  padding: 0,
+  borderRadius: '50%',
+  width: '5.5rem',
+  height: '5.5rem',
+  fontSize: '2rem',
+  lineHeight: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: colors.base,
+  color: colors.text,
+  border: `1px solid ${colors.gray10}`,
+  cursor: 'pointer',
+})

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
-const axios = require('axios');
+const axios = require('axios')
 
 async function verifyGoogleToken(accessToken) {
   const url = `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
@@ -32,7 +32,6 @@ const auth = async (req, res, next) => {
       user = await User.findOne({_id: decoded._id, 'tokens.token': token})
     }
 
-
     if (!user) {
       throw new Error()
     }
@@ -57,7 +56,7 @@ const handleBasicAuth = async (req, res, next) => {
     req.body = {
       ...req.body,
       email,
-      password
+      password,
     }
 
     next()
