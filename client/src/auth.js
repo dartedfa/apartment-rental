@@ -5,9 +5,9 @@ function getToken() {
   return window.localStorage.getItem(localStorageKey)
 }
 
-function handleUserResponse({user}) {
-  window.localStorage.setItem(localStorageKey, user?.token)
-  return user
+function handleUserResponse({user, token}) {
+  window.localStorage.setItem(localStorageKey, token)
+  return {...user, token}
 }
 
 function login({email, password}) {

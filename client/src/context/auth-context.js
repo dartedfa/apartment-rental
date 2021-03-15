@@ -12,7 +12,7 @@ async function getUser() {
 
     user = data.user
   }
-  return user
+  return {...user, token}
 }
 
 const AuthContext = React.createContext()

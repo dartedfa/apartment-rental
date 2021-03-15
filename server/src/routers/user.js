@@ -4,12 +4,13 @@ const {handleBasicAuth, auth} = require('../middleware/auth')
 const router = new express.Router()
 
 router.post('/register', handleBasicAuth, async (req, res) => {
-  const user = new User(req.body)
+  let user = new User(req.body)
   try {
     await user.save()
+
     const token = await user.generateAuthToken()
 
-    res.status(201).send({user: Object.assign({}, user, {token})})
+    res.status(201).send({user, token})
   } catch (error) {
     if (error.code) {
       return res.status(400).send({error: {email: 'Email is already taken.'}})
@@ -29,11 +30,11 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
 
       await user.save()
     }
-
+    console.log(user)
     let token = await user.generateAuthToken(req.body.accessToken)
     token += `type=${req.body.userType}`
 
-    res.status(201).send({user: Object.assign({}, user, {token})})
+    res.status(201).send({user, token})
   } catch (error) {
     return res.status(400).send(error)
   }
@@ -42,10 +43,13 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
 router.post('/login', handleBasicAuth, async (req, res) => {
   try {
     const user = await User.findByCredentials(req.body.email, req.body.password)
+
+    console.log(user)
     const token = await user.generateAuthToken()
 
     res.status(200).send({user, token})
   } catch (error) {
+    console.log(error)
     res.status(400).send({error: "User with provided email doesn't exist."})
   }
 })
@@ -63,7 +67,7 @@ router.post('/logout', auth, async (req, res) => {
   }
 })
 
-router.post('/me', auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
     const user = req.user
 
