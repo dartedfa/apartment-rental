@@ -55,7 +55,6 @@ function GoogleLoginButton({width = 220, height = 100}) {
       )}
       onSuccess={handleGoogleAuth}
       onFailure={response => console.log(response)}
-      isSignedIn={true}
       cookiePolicy={'single_host_origin'}
     />
   )

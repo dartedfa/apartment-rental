@@ -44,9 +44,9 @@ function FacebookLoginButton() {
   return (
     <FacebookLogin
       appId={appId}
-      autoLoad={true}
       fields="name,email,picture"
       callback={handleFacebookResponse}
+      onFailure={error => console.log(error)}
       render={renderProps => (
         <FacebookButton onClick={renderProps.onClick}>
           <AiFillFacebook />

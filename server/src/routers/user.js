@@ -9,7 +9,7 @@ router.post('/register', handleBasicAuth, async (req, res) => {
     await user.save()
     const token = await user.generateAuthToken()
 
-    res.status(201).send({user, token})
+    res.status(201).send({user: Object.assign({}, user, {token})})
   } catch (error) {
     if (error.code) {
       return res.status(400).send({error: {email: 'Email is already taken.'}})
@@ -26,12 +26,14 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
       const externalId = req.body.externalId
 
       user = new User({...req.body, userType: req.body.userType, externalId})
+
+      await user.save()
     }
 
     let token = await user.generateAuthToken(req.body.accessToken)
     token += `type=${req.body.userType}`
 
-    res.status(201).send({user, token})
+    res.status(201).send({user: Object.assign({}, user, {token})})
   } catch (error) {
     return res.status(400).send(error)
   }
@@ -55,13 +57,13 @@ router.post('/logout', auth, async (req, res) => {
     })
     await req.user.save()
 
-    res.send()
+    res.send({success: true})
   } catch (e) {
     res.status(500).send()
   }
 })
 
-router.get('/me', auth, async (req, res) => {
+router.post('/me', auth, async (req, res) => {
   try {
     const user = req.user
 

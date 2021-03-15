@@ -5,8 +5,8 @@ function getToken() {
   return window.localStorage.getItem(localStorageKey)
 }
 
-function handleUserResponse({user, token}) {
-  window.localStorage.setItem(localStorageKey, token)
+function handleUserResponse({user}) {
+  window.localStorage.setItem(localStorageKey, user?.token)
   return user
 }
 
@@ -26,7 +26,7 @@ function logout() {
   window.localStorage.removeItem(localStorageKey)
 }
 
-async function client(endpoint, {email, password = '', ...body}) {
+async function client(endpoint, {email = '', password = '', ...body}) {
   const config = {
     method: 'POST',
     headers: {
