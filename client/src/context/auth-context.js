@@ -40,9 +40,12 @@ function AuthProvider(props) {
     form => auth.login(form).then(user => setData(user)),
     [setData],
   )
-
+  // TODO Fix navigation in register form.
   const register = React.useCallback(
-    form => auth.register(form).then(user => setData(user)),
+    form =>
+      auth
+        .register(form)
+        .then(user => console.log('Navigate to success message of invitation')),
     [setData],
   )
   const logout = React.useCallback(() => {

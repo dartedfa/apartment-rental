@@ -15,7 +15,7 @@ function login({email, password}) {
 }
 
 function register({email, password, ...rest}) {
-  return client('register', {email, password, ...rest}).then(handleUserResponse)
+  return client('register', {email, password, ...rest})
 }
 
 function handleThirdPartyAuthentication({email, ...rest}) {
