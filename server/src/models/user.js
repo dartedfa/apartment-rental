@@ -95,10 +95,8 @@ userSchema.pre('save', async function (next) {
   const user = this
 
   if (user.isModified('password') && user.userType === 'regular') {
-    // console.log('problem')
     user.password = await bcrypt.hash(user.password, 8)
   }
-  // console.log(user)
   next()
 })
 

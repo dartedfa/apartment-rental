@@ -34,11 +34,16 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
     if (!user) {
       const externalId = req.body.externalId
 
-      user = new User({...req.body, userType: req.body.userType, externalId})
+      user = new User({
+        ...req.body,
+        userType: req.body.userType,
+        externalId,
+        verified: true,
+      })
 
       await user.save()
     }
-    console.log(user)
+
     let token = await user.generateAuthToken(req.body.accessToken)
     token += `type=${req.body.userType}`
 
@@ -52,12 +57,14 @@ router.post('/login', handleBasicAuth, async (req, res) => {
   try {
     const user = await User.findByCredentials(req.body.email, req.body.password)
 
-    console.log(user)
+    if (!user.verified) {
+      return res.status(400).send({error: 'Account is not activated.'})
+    }
+
     const token = await user.generateAuthToken()
 
     res.status(200).send({user, token})
   } catch (error) {
-    console.log(error)
     res.status(400).send({error: "User with provided email doesn't exist."})
   }
 })
@@ -82,6 +89,18 @@ router.get('/me', auth, async (req, res) => {
     res.status(200).send({user})
   } catch (e) {
     res.status(401).send({error: 'Please authenticate.'})
+  }
+})
+
+router.get('/verify', auth, async (req, res) => {
+  try {
+    req.user.tokens = []
+    req.user.verified = true
+    await req.user.save()
+
+    res.status(200).send({verified: true})
+  } catch (error) {
+    res.status(400).send()
   }
 })
 
