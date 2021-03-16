@@ -10,9 +10,9 @@ async function getUser() {
   if (token) {
     const data = await client('me', {token})
 
-    user = data.user
+    user = {...data.user, token}
   }
-  return {...user, token}
+  return user
 }
 
 const AuthContext = React.createContext()
