@@ -12,7 +12,11 @@ router.post('/register', handleBasicAuth, async (req, res) => {
     await user.save()
 
     const token = await user.generateAuthToken()
-    sendActivationEmail(user.email, user.name, `${CLIENT_URL}/verify/${token}`)
+    sendActivationEmail(
+      user.email,
+      user.firstName,
+      `${CLIENT_URL}/verify/${token}`,
+    )
 
     res.status(201).send({invitation_sent: true})
   } catch (error) {

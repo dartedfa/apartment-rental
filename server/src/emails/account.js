@@ -3,6 +3,7 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const sendActivationEmail = (email = '', name = '', url = '') => {
+  console.log(name)
   sgMail
     .send({
       templateId: process.env.SENDGRID_TEMPLATE_ID,
