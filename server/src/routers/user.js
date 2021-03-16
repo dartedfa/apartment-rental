@@ -1,7 +1,10 @@
 const express = require('express')
 const User = require('../models/user')
+const {sendActivationEmail} = require('../emails/account')
 const {handleBasicAuth, auth} = require('../middleware/auth')
 const router = new express.Router()
+
+const CLIENT_URL = process.env.CLIENT_URL
 
 router.post('/register', handleBasicAuth, async (req, res) => {
   let user = new User(req.body)
@@ -9,8 +12,9 @@ router.post('/register', handleBasicAuth, async (req, res) => {
     await user.save()
 
     const token = await user.generateAuthToken()
+    sendActivationEmail(user.email, user.name, `${CLIENT_URL}/verify/${token}`)
 
-    res.status(201).send({user, token})
+    res.status(201).send({invitation_sent: true})
   } catch (error) {
     if (error.code) {
       return res.status(400).send({error: {email: 'Email is already taken.'}})
