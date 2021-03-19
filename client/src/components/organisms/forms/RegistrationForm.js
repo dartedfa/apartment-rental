@@ -1,10 +1,7 @@
 import React from 'react'
 import {useAuth} from '../../../context/auth-context'
 import {useAsync} from '../../../utils/hooks'
-import {FormGroup} from '../../atoms/FormGroup'
-import {Input} from '../../atoms/Input'
-import {Button} from '../../atoms/Button'
-import Form from '../../atoms/Form'
+import UserForm from './UserForm'
 
 const RegistrationForm = () => {
   const {register} = useAuth()
@@ -24,31 +21,7 @@ const RegistrationForm = () => {
       }),
     )
   }
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <label htmlFor="firstName">Firstname</label>
-        <Input id="firstName" type="text" />
-      </FormGroup>
-      <FormGroup>
-        <label htmlFor="lastName">Lastname</label>
-        <Input id="lastName" type="text" />
-      </FormGroup>
-      <FormGroup>
-        <label htmlFor="email">Email</label>
-        <Input id="email" type="text" />
-      </FormGroup>
-      <FormGroup>
-        <label htmlFor="password">Password</label>
-        <Input id="password" type="password" />
-      </FormGroup>
-      <div>
-        <Button type="submit" variant="secondary">
-          Register
-        </Button>
-      </div>
-    </Form>
-  )
+  return <UserForm handleSubmit={handleSubmit} title="Register" />
 }
 
 export default RegistrationForm
