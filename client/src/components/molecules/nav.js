@@ -5,8 +5,11 @@ import {jsx} from '@emotion/react'
 import * as colors from 'styles/colors'
 import * as mq from 'styles/media-queries'
 import NavLink from '../atoms/nav-link'
+import {useAuth} from '../../context/auth-context'
 
 function Nav(params) {
+  const {user} = useAuth()
+  const isAdmin = user.role === 2
   return (
     <nav
       css={{
@@ -30,9 +33,11 @@ function Nav(params) {
         <li>
           <NavLink to="/apartments">Apartments</NavLink>
         </li>
-        <li>
-          <NavLink to="/users">Users</NavLink>
-        </li>
+        {isAdmin && (
+          <li>
+            <NavLink to="/users">Users</NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   )
