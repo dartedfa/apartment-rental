@@ -28,7 +28,7 @@ function ApartmentList({filterApartments, noApartments, noFilteredApartments}) {
   if (!filteredApartments.length) {
     return (
       <div css={{marginTop: '1em', fontSize: '1.2em'}}>
-        {filteredApartments}
+        {noFilteredApartments}
       </div>
     )
   }
