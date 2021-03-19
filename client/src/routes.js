@@ -1,6 +1,8 @@
 import {Routes, Route} from 'react-router-dom'
 import {NotFoundScreen} from 'components/screens/not-found'
 import {useAuth} from './context/auth-context'
+import ApartmentListScreen from './components/screens/apartment-list'
+import ApartmentScreen from './components/screens/apartment'
 
 function AppRoutes() {
   const {user} = useAuth()
@@ -8,7 +10,7 @@ function AppRoutes() {
   const isRealtor = user.role >= 1
   return (
     <Routes>
-      <Route path="/apartments" element={<div>Apartment List</div>} />
+      <Route path="/apartments" element={<ApartmentListScreen />} />
 
       {isRealtor && (
         <Route
@@ -20,7 +22,7 @@ function AppRoutes() {
         <Route path="/apartments/new" element={<div>Add Apartment</div>} />
       )}
 
-      <Route path="/apartments/:id" element={<div>View Apartment</div>} />
+      <Route path="/apartments/:apartmentId" element={<ApartmentScreen />} />
 
       <Route path="/account" element={<div>Account</div>} />
 
