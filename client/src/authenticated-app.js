@@ -42,7 +42,13 @@ function AuthenticatedApp() {
           right: '10px',
         }}
       >
-        {user.firstName} {user.lastName}
+        <div
+          css={{
+            marginRight: 15,
+          }}
+        >
+          {user.firstName} {user.lastName}
+        </div>
         <LogOutButton />
       </div>
       <div
