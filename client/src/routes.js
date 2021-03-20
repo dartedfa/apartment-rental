@@ -3,6 +3,8 @@ import {NotFoundScreen} from 'components/screens/not-found'
 import {useAuth} from './context/auth-context'
 import ApartmentListScreen from './components/screens/apartment-list'
 import ApartmentScreen from './components/screens/apartment'
+import EditApartmentScreen from './components/screens/edit-apartment'
+import AddApartmentScreen from './components/screens/add-apartment'
 
 function AppRoutes() {
   const {user} = useAuth()
@@ -13,13 +15,10 @@ function AppRoutes() {
       <Route path="/apartments" element={<ApartmentListScreen />} />
 
       {isRealtor && (
-        <Route
-          path="/apartments/edit/:id"
-          element={<div>Edit Apartment</div>}
-        />
+        <Route path="/apartments/edit/:id" element={<EditApartmentScreen />} />
       )}
       {isRealtor && (
-        <Route path="/apartments/new" element={<div>Add Apartment</div>} />
+        <Route path="/apartments/new" element={<AddApartmentScreen />} />
       )}
 
       <Route path="/apartments/:apartmentId" element={<ApartmentScreen />} />

@@ -53,6 +53,7 @@ function ApartmentForm({handleSubmit, action}) {
         </Button>
       </div>
     </Form>
+    //  Add GoogleMap here.
   )
 }
 
