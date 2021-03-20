@@ -12,10 +12,13 @@ function AppRoutes() {
   const isRealtor = user.role >= 1
   return (
     <Routes>
-      <Route path="/apartments" element={<ApartmentListScreen />} />
+      <Route path="/" element={<ApartmentListScreen />} />
 
       {isRealtor && (
-        <Route path="/apartments/edit/:id" element={<EditApartmentScreen />} />
+        <Route
+          path="/apartments/edit/:apartmentId"
+          element={<EditApartmentScreen />}
+        />
       )}
       {isRealtor && (
         <Route path="/apartments/new" element={<AddApartmentScreen />} />

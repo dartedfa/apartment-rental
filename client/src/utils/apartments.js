@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query'
+import {queryCache, useMutation, useQuery} from 'react-query'
 import {useClient} from 'context/auth-context'
 
 // Initialize Loading apartments and loadingApartment
@@ -33,4 +33,78 @@ function useApartment(apartmentId) {
   return data ?? {}
 }
 
-export {useApartments, useApartment}
+const defaultMutationOptions = {
+  onError: (err, variables, recover) =>
+    typeof recover === 'function' ? recover() : null,
+  onSettled: () => queryCache.invalidateQueries('apartments'),
+}
+
+function onUpdateMutation(newItem) {
+  const previousItems = queryCache.getQueryData('apartments')
+
+  queryCache.setQueryData('apartments', old => {
+    return old.map(item => {
+      return item._id === newItem._id ? {...item, ...newItem} : item
+    })
+  })
+
+  return () => queryCache.setQueryData('apartments', previousItems)
+}
+
+function useUpdateApartment(options) {
+  const client = useClient()
+
+  return useMutation(
+    updates =>
+      client(`apartments/${updates._id}`, {
+        method: 'PATCH',
+        data: updates,
+      }),
+    {
+      onMutate: onUpdateMutation,
+      ...defaultMutationOptions,
+      ...options,
+    },
+  )
+}
+
+function useCreateApartment(options) {
+  const client = useClient()
+
+  return useMutation(
+    ({apartmentId}) => client('apartments', {data: {apartmentId}}),
+    {
+      ...defaultMutationOptions,
+      ...options,
+    },
+  )
+}
+
+function useRemoveApartment(options) {
+  const client = useClient()
+
+  return useMutation(
+    ({_id}) => client(`apartments/${_id}`, {method: 'DELETE'}),
+    {
+      onMutate: removedItem => {
+        const previousItems = queryCache.getQueryData('apartments')
+
+        queryCache.setQueryData('apartments', old => {
+          return old.filter(item => item._id !== removedItem._id)
+        })
+
+        return () => queryCache.setQueryData('apartments', previousItems)
+      },
+      ...defaultMutationOptions,
+      ...options,
+    },
+  )
+}
+
+export {
+  useApartments,
+  useApartment,
+  useUpdateApartment,
+  useRemoveApartment,
+  useCreateApartment,
+}

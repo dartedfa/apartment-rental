@@ -31,7 +31,7 @@ function Nav(params) {
         }}
       >
         <li>
-          <NavLink to="/apartments">Apartments</NavLink>
+          <NavLink to="/">Apartments</NavLink>
         </li>
         {isAdmin && (
           <li>
