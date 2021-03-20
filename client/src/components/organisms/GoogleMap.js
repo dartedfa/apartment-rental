@@ -1,4 +1,9 @@
+/** @jsxRuntime classic /
+ /** @jsx jsx */
+import {jsx} from '@emotion/react'
+
 import * as React from 'react'
+
 import {GoogleApiWrapper, InfoWindow, Map, Marker} from 'google-maps-react'
 import {useApartments} from '../../utils/apartments'
 import {FullPageSpinner, Spinner} from '../atoms/Spinner'
@@ -7,11 +12,11 @@ import {useParams} from 'react-router-dom'
 import {useState} from 'react'
 
 const style = {
-  width: '570px',
-  height: '300px',
+  minWidth: 270,
+  height: 300,
 }
 
-function GoogleMap({google}, ...params) {
+function GoogleMap({google}) {
   const {apartmentId} = useParams()
   const {data: apartments = [], isLoading} = useApartments()
   const [activeMarker, setActiveMarker] = useState()
@@ -45,7 +50,7 @@ function GoogleMap({google}, ...params) {
   })
 
   return (
-    <>
+    <div css={{position: 'relative'}}>
       <Map containerStyle={style} google={google} zoom={14} bounds={bounds}>
         {apartmentsToShow.map(el => {
           return (
@@ -66,7 +71,7 @@ function GoogleMap({google}, ...params) {
           </div>
         </InfoWindow>
       </Map>
-    </>
+    </div>
   )
 }
 
