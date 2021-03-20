@@ -6,6 +6,7 @@ import ApartmentForm from '../organisms/forms/apartment-form'
 import {useApartment, useUpdateApartment} from '../../utils/apartments'
 import {useParams} from 'react-router-dom'
 import {useNavigate} from 'react-router'
+import {FullPageSpinner} from '../atoms/Spinner'
 
 const testData = {
   _id: '60563bfa45d46a811070d36a',
@@ -19,17 +20,20 @@ function EditApartmentScreen() {
   const navigate = useNavigate()
   const {apartmentId} = useParams()
 
-  const apartment = useApartment(apartmentId)
+  const {data: apartment = {}, isLoading, error} = useApartment(apartmentId)
   const [handleSubmitUpdate] = useUpdateApartment({throwOnError: true})
+
+  if (isLoading) {
+    return <FullPageSpinner />
+  }
 
   return (
     <>
       <h1>Edit Apartment</h1>
       <ApartmentForm
         apartment={apartment}
-        handleSubmit={event => {
-          event.preventDefault()
-          handleSubmitUpdate(testData)
+        handleSubmit={data => {
+          handleSubmitUpdate(data)
           navigate('/')
         }}
         action="Edit Apartment"

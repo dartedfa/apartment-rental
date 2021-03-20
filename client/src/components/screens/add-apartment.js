@@ -23,9 +23,8 @@ function AddApartmentScreen() {
     <>
       <h1>Add Apartment</h1>
       <ApartmentForm
-        handleSubmit={event => {
-          event.preventDefault()
-          handleSubmitCreation(testData)
+        handleSubmit={data => {
+          handleSubmitCreation(data)
           navigate('/')
         }}
         action="Add Apartment"

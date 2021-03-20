@@ -2,17 +2,17 @@
  /** @jsx jsx */
 import {jsx} from '@emotion/react'
 
+import * as React from 'react'
 import {useParams} from 'react-router-dom'
 import {useApartment} from 'utils/apartments'
 import * as mq from 'styles/media-queries'
 import apartmentPlaceholderSvg from 'assets/apartment-rent-placeholder.svg'
 import {Link} from '../atoms/link'
 import GoogleMap from '../organisms/GoogleMap'
-import * as React from 'react'
 
 function ApartmentScreen() {
   const {apartmentId} = useParams()
-  const apartment = useApartment(apartmentId)
+  const {data: apartment = {}} = useApartment(apartmentId)
 
   const {
     name,

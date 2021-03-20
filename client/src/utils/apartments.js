@@ -21,7 +21,7 @@ const bookQueryConfig = {
 
 function useApartment(apartmentId) {
   const client = useClient()
-  const {data} = useQuery({
+  const response = useQuery({
     queryKey: ['apartments', {apartmentId}],
     queryFn: () =>
       client(`apartments/${apartmentId}`).then(({apartment, realtor}) => ({
@@ -30,7 +30,7 @@ function useApartment(apartmentId) {
       })),
     ...bookQueryConfig,
   })
-  return data ?? {}
+  return response
 }
 
 const defaultMutationOptions = {

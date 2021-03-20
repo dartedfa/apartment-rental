@@ -5,43 +5,84 @@ import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
 import GoogleMap from '../GoogleMap'
 
-function ApartmentForm({handleSubmit, action}) {
-  const [longitude, setLongitude] = useState('')
-  const [latitude, setLatitude] = useState('')
+function ApartmentForm({handleSubmit, action, apartment}) {
+  const [state, setState] = useState({
+    _id: apartment?._id,
+    name: apartment?.name || '',
+    description: apartment?.description || '',
+    size: apartment?.size || '',
+    rooms: apartment?.rooms || '',
+    price: apartment?.price || '',
+    isAvailable: apartment?.isAvailable || false,
+    longitude: apartment?.longitude || '',
+    latitude: apartment?.latitude || '',
+  })
+
+  const {name, description, size, rooms, price, longitude, latitude} = state
 
   const changePosition = ({lng, lat}) => {
-    setLongitude(lng.toFixed(5))
-    setLatitude(lat.toFixed(5))
+    setState(prevState => ({
+      ...prevState,
+      longitude: lng.toFixed(5),
+      latitude: lat.toFixed(5),
+    }))
+  }
+
+  const setSingleState = ({target}) => {
+    setState(prevState => ({
+      ...prevState,
+      [target.id]: target.value,
+    }))
+  }
+
+  const handleValidateBeforeSubmit = event => {
+    event.preventDefault()
+    handleSubmit(state)
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleValidateBeforeSubmit}>
       <FormGroup>
         <label htmlFor="name">Name</label>
-        <Input id="name" type="text" />
+        <Input id="name" type="text" value={name} onChange={setSingleState} />
       </FormGroup>
       <FormGroup>
         <label htmlFor="description">Description</label>
-        <Input id="description" type="text" />
+        <Input
+          id="description"
+          type="text"
+          value={description}
+          onChange={setSingleState}
+        />
       </FormGroup>
       <FormGroup>
         <label htmlFor="price">Price</label>
-        <Input id="price" type="number" />
+        <Input
+          id="price"
+          type="number"
+          value={price}
+          onChange={setSingleState}
+        />
       </FormGroup>
       <FormGroup>
         <label htmlFor="size">Size</label>
-        <Input id="size" type="number" />
+        <Input id="size" type="number" value={size} onChange={setSingleState} />
       </FormGroup>
       <FormGroup>
         <label htmlFor="rooms">Rooms</label>
-        <Input id="rooms" type="number" />
+        <Input
+          id="rooms"
+          type="number"
+          value={rooms}
+          onChange={setSingleState}
+        />
       </FormGroup>
       <FormGroup>
         <label htmlFor="longitude">Longitude</label>
         <Input
           id="longitude"
           value={longitude}
-          onChange={({target}) => setLongitude(target.value)}
+          onChange={setSingleState}
           type="number"
         />
       </FormGroup>
@@ -50,7 +91,7 @@ function ApartmentForm({handleSubmit, action}) {
         <Input
           id="latitude"
           value={latitude}
-          onChange={({target}) => setLatitude(target.value)}
+          onChange={setSingleState}
           type="number"
         />
       </FormGroup>
