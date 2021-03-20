@@ -16,7 +16,7 @@ const style = {
   height: 300,
 }
 
-function GoogleMap({google}) {
+function GoogleMap({google, data, changeCoord}) {
   const {apartmentId} = useParams()
   const {data: apartments = [], isLoading} = useApartments()
   const [activeMarker, setActiveMarker] = useState()
@@ -42,7 +42,9 @@ function GoogleMap({google}) {
     ? apartments.filter(el => {
         return el._id === apartmentId
       })
-    : apartments
+    : data === undefined
+    ? apartments
+    : []
 
   const bounds = new google.maps.LatLngBounds()
 
@@ -52,10 +54,42 @@ function GoogleMap({google}) {
       lng: parseFloat(el.longitude),
     })
   })
+  if (data !== undefined) {
+    if (
+      Number.isInteger(parseInt(data.lat, 10)) &&
+      Number.isInteger(parseInt(data.lng, 10))
+    ) {
+      apartmentsToShow.push({
+        id: 'newData',
+        latitude: data.lat,
+        longitude: data.lng,
+        ...data,
+      })
+      bounds.extend({
+        lat: parseFloat(data.lat),
+        lng: parseFloat(data.lng),
+      })
+    }
+  }
+
+  const onMapClick = (props, marker, e) => {
+    if (data !== undefined) {
+      changeCoord({lat: e.latLng.lat(), lng: e.latLng.lng()})
+      //console.log(props.initialCenter)
+    }
+  }
+
+  //console.log(apartmentsToShow)
 
   return (
     <div css={{position: 'relative'}}>
-      <Map containerStyle={style} google={google} zoom={14} bounds={bounds}>
+      <Map
+        containerStyle={style}
+        google={google}
+        bounds={bounds}
+        zoom={14}
+        onClick={onMapClick}
+      >
         {apartmentsToShow.map(el => {
           return (
             <Marker

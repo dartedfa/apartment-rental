@@ -3,10 +3,17 @@ import Form from '../../atoms/Form'
 import {FormGroup} from '../../atoms/FormGroup'
 import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
+import GoogleMap from '../GoogleMap'
 
 function ApartmentForm({handleSubmit, action}) {
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
+
+  const changePosition = ({lng, lat}) => {
+    setLongitude(lng.toFixed(5))
+    setLatitude(lat.toFixed(5))
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -52,8 +59,11 @@ function ApartmentForm({handleSubmit, action}) {
           {action}
         </Button>
       </div>
+      <GoogleMap
+        data={{lat: latitude, lng: longitude}}
+        changeCoord={changePosition}
+      />
     </Form>
-    //  Add GoogleMap here.
   )
 }
 
