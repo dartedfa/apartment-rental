@@ -28,7 +28,6 @@ function EditApartmentScreen() {
 
   const {data: apartment = {}, isLoading, error} = useApartment(apartmentId)
   const [handleSubmitUpdate] = useUpdateApartment({throwOnError: true})
-  const [handleRemoveApartment] = useRemoveApartment()
 
   if (isLoading) {
     return <FullPageSpinner />
