@@ -23,7 +23,11 @@ function GoogleMap({google}) {
   const [activeApartment, setActiveApartment] = useState()
 
   if (isLoading) {
-    return <FullPageSpinner />
+    return (
+      <div css={{width: '100%', margin: 'auto'}}>
+        <Spinner />
+      </div>
+    )
   }
 
   const showHouseDetails = (props, marker, e) => {
