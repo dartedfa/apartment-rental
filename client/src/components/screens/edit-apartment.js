@@ -3,18 +3,35 @@
 import {jsx} from '@emotion/react'
 import * as React from 'react'
 import ApartmentForm from '../organisms/forms/apartment-form'
-import {useApartment} from '../../utils/apartments'
+import {useApartment, useUpdateApartment} from '../../utils/apartments'
 import {useParams} from 'react-router-dom'
+import {useNavigate} from 'react-router'
+
+const testData = {
+  _id: '60563bfa45d46a811070d36a',
+  description: 'Test it updates !',
+  price: 100,
+  longitude: '44.7048628',
+  latitude: '41.7221374',
+}
 
 function EditApartmentScreen() {
+  const navigate = useNavigate()
   const {apartmentId} = useParams()
+
   const apartment = useApartment(apartmentId)
-  console.log(apartment)
+  const [handleSubmitUpdate] = useUpdateApartment({throwOnError: true})
+
   return (
     <>
       <h1>Edit Apartment</h1>
       <ApartmentForm
-        handleSubmit={event => console.log(event)}
+        apartment={apartment}
+        handleSubmit={event => {
+          event.preventDefault()
+          handleSubmitUpdate(testData)
+          navigate('/')
+        }}
         action="Edit Apartment"
       />
     </>

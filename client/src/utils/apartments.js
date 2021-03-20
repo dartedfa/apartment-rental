@@ -71,13 +71,10 @@ function useUpdateApartment(options) {
 function useCreateApartment(options) {
   const client = useClient()
 
-  return useMutation(
-    ({apartmentId}) => client('apartments', {data: {apartmentId}}),
-    {
-      ...defaultMutationOptions,
-      ...options,
-    },
-  )
+  return useMutation(data => client('apartments', {data}), {
+    ...defaultMutationOptions,
+    ...options,
+  })
 }
 
 function useRemoveApartment(options) {

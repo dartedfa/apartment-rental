@@ -24,7 +24,7 @@ router.get('/apartments', auth, async (req, res) => {
 
   const match = {...filters} // will use later to filter by floor etc.
 
-  const apartments = await Apartment.find(match)
+  const apartments = await Apartment.find(match).sort({_id: -1})
   try {
     res.status(200).send(apartments)
   } catch (e) {
