@@ -7,6 +7,8 @@ import {useApartment} from 'utils/apartments'
 import * as mq from 'styles/media-queries'
 import apartmentPlaceholderSvg from 'assets/apartment-rent-placeholder.svg'
 import {Link} from '../atoms/link'
+import GoogleMap from '../organisms/GoogleMap'
+import * as React from 'react'
 
 function ApartmentScreen() {
   const {apartmentId} = useParams()
@@ -74,7 +76,7 @@ function ApartmentScreen() {
 
 function ApartmentMap({longitude, latitude}) {
   // TODO: Map implementation
-  return <div>Map !</div>
+  return <GoogleMap />
 }
 
 export default ApartmentScreen

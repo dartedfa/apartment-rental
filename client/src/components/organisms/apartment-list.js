@@ -7,6 +7,7 @@ import {useApartments} from '../../utils/apartments'
 import {Spinner} from '../atoms/Spinner'
 import {ApartmentListUL} from '../atoms/apartment-list'
 import {ApartmentRow} from '../molecules/apartment-row'
+import GoogleMap from './GoogleMap'
 
 function ApartmentList({filterApartments, noApartments, noFilteredApartments}) {
   const {data: apartments = [], isLoading} = useApartments()
@@ -42,7 +43,7 @@ function ApartmentList({filterApartments, noApartments, noFilteredApartments}) {
           </li>
         ))}
       </ApartmentListUL>
-      {/* TODO: Map Goes here*/}
+      <GoogleMap />
     </>
   )
 }
