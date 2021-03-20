@@ -3,7 +3,8 @@ import {GoogleApiWrapper, InfoWindow, Map, Marker} from 'google-maps-react'
 import {useApartments} from '../../utils/apartments'
 import {Spinner} from '../atoms/Spinner'
 import {useParams} from 'react-router-dom'
-import {history} from '../../context'
+//import {history} from '../../context'
+import {useState} from 'react'
 
 const style = {
   width: '570px',
@@ -13,6 +14,8 @@ const style = {
 function GoogleMap({google}, ...params) {
   const {apartmentId} = useParams()
   const {data: apartments = [], isLoading} = useApartments()
+  const [activeMarker, setActiveMarker] = useState()
+  const [activeApartment, setActiveApartment] = useState()
 
   if (isLoading) {
     return (
@@ -23,9 +26,11 @@ function GoogleMap({google}, ...params) {
   }
 
   const showHouseDetails = (props, marker, e) => {
-    if (!apartmentId) {
-      history.push(`/apartments/${props.id}`)
-    }
+    // if (!apartmentId) {
+    //   history.push(`/apartments/${props.id}`)
+    // }
+    setActiveApartment(props.elem)
+    setActiveMarker(marker)
   }
 
   const apartmentsToShow = apartmentId
@@ -34,17 +39,18 @@ function GoogleMap({google}, ...params) {
       })
     : apartments
 
+  const bounds = new google.maps.LatLngBounds()
+
+  apartmentsToShow.forEach(el => {
+    bounds.extend({
+      lat: parseFloat(el.latitude),
+      lng: parseFloat(el.longitude),
+    })
+  })
+
   return (
     <>
-      <Map
-        containerStyle={style}
-        google={google}
-        zoom={14}
-        initialCenter={{
-          lat: 41.7221374,
-          lng: 44.7048628,
-        }}
-      >
+      <Map containerStyle={style} google={google} zoom={14} bounds={bounds}>
         {apartmentsToShow.map(el => {
           return (
             <Marker
@@ -53,10 +59,16 @@ function GoogleMap({google}, ...params) {
               position={{lat: el.latitude, lng: el.longitude}}
               name={el.name}
               title={el.name}
+              elem={el}
               onClick={showHouseDetails}
             />
           )
         })}
+        <InfoWindow visible={true} marker={activeMarker}>
+          <div>
+            <h1>{!!activeApartment && activeApartment.name}</h1>
+          </div>
+        </InfoWindow>
       </Map>
     </>
   )
