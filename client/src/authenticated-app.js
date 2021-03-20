@@ -55,7 +55,7 @@ function AuthenticatedApp() {
         css={{
           margin: '0 auto',
           padding: '4em 2em',
-          maxWidth: '840px',
+          maxWidth: '1240px',
           width: '100%',
           display: 'grid',
           gridGap: '1em',

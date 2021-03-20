@@ -37,11 +37,6 @@ function EditApartmentScreen() {
   return (
     <>
       <h1>Edit Apartment</h1>
-      <ActionButton
-        async={true}
-        icon={<FaMinusCircle />}
-        onClick={() => handleRemoveApartment({_id: apartment._id})}
-      />
       <ApartmentForm
         apartment={apartment}
         handleSubmit={data => {

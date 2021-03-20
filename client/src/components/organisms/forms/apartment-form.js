@@ -41,7 +41,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
   }
 
   return (
-    <Form onSubmit={handleValidateBeforeSubmit}>
+    <Form fullScreen={true} onSubmit={handleValidateBeforeSubmit}>
       <FormGroup>
         <label htmlFor="name">Name</label>
         <Input id="name" type="text" value={name} onChange={setSingleState} />
