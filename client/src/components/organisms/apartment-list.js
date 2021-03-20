@@ -4,7 +4,7 @@ import {jsx} from '@emotion/react'
 
 import * as React from 'react'
 import {useApartments} from '../../utils/apartments'
-import {Spinner} from '../atoms/Spinner'
+import {FullPageSpinner, Spinner} from '../atoms/Spinner'
 import {ApartmentListUL} from '../atoms/apartment-list'
 import {ApartmentRow} from '../molecules/apartment-row'
 import GoogleMap from './GoogleMap'
@@ -15,11 +15,7 @@ function ApartmentList({filterApartments, noApartments, noFilteredApartments}) {
   const filteredApartments = apartments.filter(filterApartments)
 
   if (isLoading) {
-    return (
-      <div css={{width: '100%', margin: 'auto'}}>
-        <Spinner />
-      </div>
-    )
+    return <FullPageSpinner />
   }
 
   if (!apartments.length) {

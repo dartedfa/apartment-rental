@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GoogleApiWrapper, InfoWindow, Map, Marker} from 'google-maps-react'
 import {useApartments} from '../../utils/apartments'
-import {Spinner} from '../atoms/Spinner'
+import {FullPageSpinner, Spinner} from '../atoms/Spinner'
 import {useParams} from 'react-router-dom'
 //import {history} from '../../context'
 import {useState} from 'react'
@@ -18,11 +18,7 @@ function GoogleMap({google}, ...params) {
   const [activeApartment, setActiveApartment] = useState()
 
   if (isLoading) {
-    return (
-      <div css={{width: '100%', margin: 'auto'}}>
-        <Spinner />
-      </div>
-    )
+    return <FullPageSpinner />
   }
 
   const showHouseDetails = (props, marker, e) => {

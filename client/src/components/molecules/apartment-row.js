@@ -6,9 +6,13 @@ import {Link} from 'react-router-dom'
 import * as colors from 'styles/colors'
 import * as mq from 'styles/media-queries'
 import apartmentPlaceholderSvg from 'assets/apartment-rent-placeholder.svg'
+import {useAuth} from '../../context/auth-context'
 
 function ApartmentRow({apartment}) {
   const {name, description, rooms, price, size} = apartment
+  const {user} = useAuth()
+
+  const isRealtor = user.role >= 1
 
   const id = `apartment-row-${apartment._id}`
 
@@ -93,20 +97,22 @@ function ApartmentRow({apartment}) {
           </div>
         </div>
       </Link>
-      {/*<div*/}
-      {/*  css={{*/}
-      {/*    marginLeft: '20px',*/}
-      {/*    position: 'absolute',*/}
-      {/*    right: -20,*/}
-      {/*    color: colors.gray80,*/}
-      {/*    display: 'flex',*/}
-      {/*    flexDirection: 'column',*/}
-      {/*    justifyContent: 'space-around',*/}
-      {/*    height: '100%',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Map details*/}
-      {/*</div>*/}
+      {isRealtor && (
+        <div
+          css={{
+            marginLeft: '20px',
+            position: 'absolute',
+            right: -20,
+            color: colors.gray80,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            height: '100%',
+          }}
+        >
+          <Link to={`/apartments/edit/${apartment._id}`}>Edit Apartment</Link>
+        </div>
+      )}
     </div>
   )
 }
