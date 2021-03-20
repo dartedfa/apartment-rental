@@ -3,10 +3,16 @@
 import {jsx} from '@emotion/react'
 import * as React from 'react'
 import ApartmentForm from '../organisms/forms/apartment-form'
-import {useApartment, useUpdateApartment} from '../../utils/apartments'
+import {
+  useApartment,
+  useRemoveApartment,
+  useUpdateApartment,
+} from '../../utils/apartments'
 import {useParams} from 'react-router-dom'
 import {useNavigate} from 'react-router'
 import {FullPageSpinner} from '../atoms/Spinner'
+import {ActionButton} from '../atoms/Button'
+import {FaMinusCircle} from 'react-icons/all'
 
 const testData = {
   _id: '60563bfa45d46a811070d36a',
@@ -22,6 +28,7 @@ function EditApartmentScreen() {
 
   const {data: apartment = {}, isLoading, error} = useApartment(apartmentId)
   const [handleSubmitUpdate] = useUpdateApartment({throwOnError: true})
+  const [handleRemoveApartment] = useRemoveApartment()
 
   if (isLoading) {
     return <FullPageSpinner />
@@ -30,6 +37,11 @@ function EditApartmentScreen() {
   return (
     <>
       <h1>Edit Apartment</h1>
+      <ActionButton
+        async={true}
+        icon={<FaMinusCircle />}
+        onClick={() => handleRemoveApartment({_id: apartment._id})}
+      />
       <ApartmentForm
         apartment={apartment}
         handleSubmit={data => {

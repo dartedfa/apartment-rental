@@ -1,5 +1,8 @@
 import styled from '@emotion/styled/macro'
 import * as colors from 'styles/colors'
+import {Spinner} from './Spinner'
+import {FaTimesCircle} from 'react-icons/all'
+import {useAsync} from '../../utils/hooks'
 
 const buttonVariants = {
   primary: {backgroundColor: colors.green},
@@ -36,3 +39,42 @@ export const CircleButton = styled.button({
   border: `1px solid ${colors.gray10}`,
   cursor: 'pointer',
 })
+
+export function ActionButton({
+  label,
+  highlight,
+  onClick,
+  icon,
+  async,
+  ...rest
+}) {
+  const {isLoading, isError, error, run, reset} = useAsync()
+  function handleClick() {
+    if (isError) {
+      reset()
+    } else {
+      async ? run(onClick()) : onClick && onClick()
+    }
+  }
+
+  return (
+    <CircleButton
+      css={{
+        backgroundColor: 'white',
+        ':hover,:focus': {
+          color: isLoading
+            ? colors.gray80
+            : isError
+            ? colors.danger
+            : highlight,
+        },
+      }}
+      disabled={isLoading}
+      onClick={handleClick}
+      aria-label={isError ? error.message : label}
+      {...rest}
+    >
+      {isLoading ? <Spinner /> : isError ? <FaTimesCircle /> : icon}
+    </CircleButton>
+  )
+}

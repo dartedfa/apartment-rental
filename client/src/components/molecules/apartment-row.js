@@ -7,9 +7,13 @@ import * as colors from 'styles/colors'
 import * as mq from 'styles/media-queries'
 import apartmentPlaceholderSvg from 'assets/apartment-rent-placeholder.svg'
 import {useAuth} from '../../context/auth-context'
+import {ActionButton} from '../atoms/Button'
+import {useRemoveApartment} from '../../utils/apartments'
+import {AiTwotoneEdit, FaMinusCircle} from 'react-icons/all'
 
 function ApartmentRow({apartment}) {
   const {name, description, rooms, price, size} = apartment
+  const [handleRemoveApartment] = useRemoveApartment()
   const {user} = useAuth()
 
   const isRealtor = user.role >= 1
@@ -73,7 +77,7 @@ function ApartmentRow({apartment}) {
                 {name}
               </h2>
             </div>
-            <div css={{marginLeft: 10}}>
+            <div css={{marginLeft: 10, flex: 1}}>
               <div
                 css={{
                   marginTop: '0.4em',
@@ -110,7 +114,14 @@ function ApartmentRow({apartment}) {
             height: '100%',
           }}
         >
-          <Link to={`/apartments/edit/${apartment._id}`}>Edit Apartment</Link>
+          <Link to={`/apartments/edit/${apartment._id}`}>
+            <ActionButton async={false} icon={<AiTwotoneEdit />} />
+          </Link>
+          <ActionButton
+            async={true}
+            icon={<FaMinusCircle />}
+            onClick={() => handleRemoveApartment({_id: apartment._id})}
+          />
         </div>
       )}
     </div>
