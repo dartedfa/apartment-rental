@@ -104,4 +104,73 @@ router.get('/verify', auth, async (req, res) => {
   }
 })
 
+router.post('/users', auth, async (req, res) => {
+  const user = new User({
+    ...req.body,
+  })
+
+  try {
+    await user.save()
+    res.status(201).send(user)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+router.get('/users', auth, async (req, res) => {
+  if (req.user.role !== 2) {
+    throw new Error("You don't have permission to access users list")
+  }
+
+  const users = await User.find().sort({_id: -1})
+  try {
+    res.status(200).send(users)
+  } catch (e) {
+    res.status(500).send()
+  }
+})
+
+router.get('/users/:id', auth, async (req, res) => {
+  const _id = req.params.id
+
+  if (req.user.role !== 2) {
+    throw new Error("You don't have permission to access users list")
+  }
+
+  try {
+    const user = await User.findById({_id})
+
+    if (!user) {
+      return res.status(404).send()
+    }
+
+    res.status(200).send({user})
+  } catch (e) {
+    res.status(500).send()
+  }
+})
+
+router.patch('/users/:id', auth, async (req, res) => {
+  const updates = Object.keys(req.body)
+
+  if (req.user.role !== 2) {
+    throw new Error("You don't have permission to access users list")
+  }
+
+  try {
+    const user = await User.findById({_id: req.params.id})
+
+    if (!user) {
+      return res.status(404).send()
+    }
+
+    updates.forEach(update => (user[update] = req.body[update]))
+
+    await user.save()
+    res.send(user)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 module.exports = router
