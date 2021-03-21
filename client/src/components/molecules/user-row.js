@@ -33,7 +33,7 @@ function UserRow({users}) {
     >
       <Link
         aria-labelledby={id}
-        to={`/users/${users._id}`}
+        to={`/users/edit/${users._id}`}
         css={{
           minHeight: 270,
           flexGrow: 2,

@@ -55,7 +55,7 @@ function UserForm({handleSubmit, title, user}) {
       </FormGroup>
       <FormGroup>
         <label htmlFor="role">Role</label>
-        <select id="role" onChange={setSingleState} defaultValue={role}>
+        <select id="role" onChange={setSingleState} value={role}>
           <option value={0}>User</option>
           <option value={1}>Realtor</option>
           <option value={2}>Admin</option>

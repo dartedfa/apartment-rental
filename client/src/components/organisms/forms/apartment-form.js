@@ -8,6 +8,8 @@ import {FormGroup} from '../../atoms/FormGroup'
 import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
 import GoogleMap from '../GoogleMap'
+import {useAuth} from '../../../context/auth-context'
+import {useUsers} from '../../../utils/users'
 
 function ApartmentForm({handleSubmit, action, apartment}) {
   const [state, setState] = useState({
@@ -20,6 +22,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
     isAvailable: apartment?.isAvailable || false,
     longitude: apartment?.longitude || '',
     latitude: apartment?.latitude || '',
+    realtor: apartment?.realtor || '',
   })
 
   const {
@@ -31,7 +34,13 @@ function ApartmentForm({handleSubmit, action, apartment}) {
     longitude,
     latitude,
     isAvailable,
+    realtor,
   } = state
+
+  const {data: users = [], isLoading} = useUsers()
+
+  const {user} = useAuth()
+  const isAdmin = user.role === 2
 
   const changePosition = ({lng, lat}) => {
     setState(prevState => ({
@@ -130,6 +139,25 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           {action}
         </Button>
       </div>
+      {isAdmin && (
+        <FormGroup>
+          <label htmlFor="realtors">Realtors</label>
+          <select id="realtors" onChange={setSingleState} value={realtor}>
+            <option value="">Select Realtor</option>
+            {users.map(user => {
+              if (user.role !== 1) {
+                return false
+              }
+
+              return (
+                <option key={user._id} value={user._id}>
+                  {user.firstName} {user.lastName} {user.email}
+                </option>
+              )
+            })}
+          </select>
+        </FormGroup>
+      )}
       <GoogleMap
         data={{lat: latitude, lng: longitude}}
         changeCoordinate={changePosition}
