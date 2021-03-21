@@ -2,11 +2,9 @@
  /** @jsx jsx */
 import {jsx} from '@emotion/react'
 
-import * as React from 'react'
-
 import {GoogleApiWrapper, InfoWindow, Map, Marker} from 'google-maps-react'
 import {useApartments} from '../../utils/apartments'
-import {FullPageSpinner, Spinner} from '../atoms/Spinner'
+import {Spinner} from '../atoms/Spinner'
 import {useParams} from 'react-router-dom'
 import {useState} from 'react'
 import {useNavigate} from 'react-router'
@@ -16,7 +14,7 @@ const style = {
   height: 300,
 }
 
-function GoogleMap({google, data, changeCoord}) {
+function GoogleMap({google, data, changeCoordinate}) {
   const {apartmentId} = useParams()
   const navigate = useNavigate()
   const {data: apartments = [], isLoading} = useApartments()
@@ -77,7 +75,7 @@ function GoogleMap({google, data, changeCoord}) {
 
   const onMapClick = (props, marker, e) => {
     if (data !== undefined) {
-      changeCoord({lat: e.latLng.lat(), lng: e.latLng.lng()})
+      changeCoordinate({lat: e.latLng.lat(), lng: e.latLng.lng()})
       //console.log(props.initialCenter)
     }
   }

@@ -132,7 +132,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
       </div>
       <GoogleMap
         data={{lat: latitude, lng: longitude}}
-        changeCoord={changePosition}
+        changeCoordinate={changePosition}
       />
     </Form>
   )
