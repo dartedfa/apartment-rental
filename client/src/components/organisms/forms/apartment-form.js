@@ -1,3 +1,7 @@
+/** @jsxRuntime classic /
+ /** @jsx jsx */
+import {jsx} from '@emotion/react'
+
 import React, {useState} from 'react'
 import Form from '../../atoms/Form'
 import {FormGroup} from '../../atoms/FormGroup'
@@ -18,7 +22,16 @@ function ApartmentForm({handleSubmit, action, apartment}) {
     latitude: apartment?.latitude || '',
   })
 
-  const {name, description, size, rooms, price, longitude, latitude} = state
+  const {
+    name,
+    description,
+    size,
+    rooms,
+    price,
+    longitude,
+    latitude,
+    isAvailable,
+  } = state
 
   const changePosition = ({lng, lat}) => {
     setState(prevState => ({
@@ -31,7 +44,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
   const setSingleState = ({target}) => {
     setState(prevState => ({
       ...prevState,
-      [target.id]: target.value,
+      [target.id]: target.type === 'checkbox' ? target.checked : target.value,
     }))
   }
 
@@ -42,6 +55,23 @@ function ApartmentForm({handleSubmit, action, apartment}) {
 
   return (
     <Form fullScreen={true} onSubmit={handleValidateBeforeSubmit}>
+      <FormGroup
+        css={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <label css={{marginRight: 15}} htmlFor="isAvailable">
+          Rented
+        </label>
+        <Input
+          id="isAvailable"
+          type="checkbox"
+          css={{marginTop: 4}}
+          checked={isAvailable}
+          onChange={setSingleState}
+        />
+      </FormGroup>
       <FormGroup>
         <label htmlFor="name">Name</label>
         <Input id="name" type="text" value={name} onChange={setSingleState} />

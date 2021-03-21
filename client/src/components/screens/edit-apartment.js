@@ -39,6 +39,7 @@ function EditApartmentScreen() {
       <ApartmentForm
         apartment={apartment}
         handleSubmit={data => {
+          console.log(data)
           handleSubmitUpdate(data)
           navigate('/')
         }}

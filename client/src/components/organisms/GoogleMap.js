@@ -8,8 +8,8 @@ import {GoogleApiWrapper, InfoWindow, Map, Marker} from 'google-maps-react'
 import {useApartments} from '../../utils/apartments'
 import {FullPageSpinner, Spinner} from '../atoms/Spinner'
 import {useParams} from 'react-router-dom'
-//import {history} from '../../context'
 import {useState} from 'react'
+import {useNavigate} from 'react-router'
 
 const style = {
   minWidth: 270,
@@ -18,6 +18,7 @@ const style = {
 
 function GoogleMap({google, data, changeCoord}) {
   const {apartmentId} = useParams()
+  const navigate = useNavigate()
   const {data: apartments = [], isLoading} = useApartments()
   const [activeMarker, setActiveMarker] = useState()
   const [activeApartment, setActiveApartment] = useState()
@@ -31,20 +32,22 @@ function GoogleMap({google, data, changeCoord}) {
   }
 
   const showHouseDetails = (props, marker, e) => {
-    // if (!apartmentId) {
-    //   history.push(`/apartments/${props.id}`)
-    // }
+    if (!apartmentId && data === undefined) {
+      navigate(`/apartments/${props.id}`)
+    }
+
     setActiveApartment(props.elem)
     setActiveMarker(marker)
   }
 
-  const apartmentsToShow = apartmentId
-    ? apartments.filter(el => {
-        return el._id === apartmentId
-      })
-    : data === undefined
-    ? apartments
-    : []
+  const apartmentsToShow =
+    apartmentId && data === undefined
+      ? apartments.filter(el => {
+          return el._id === apartmentId
+        })
+      : data === undefined
+      ? apartments
+      : []
 
   const bounds = new google.maps.LatLngBounds()
 
@@ -60,7 +63,7 @@ function GoogleMap({google, data, changeCoord}) {
       Number.isInteger(parseInt(data.lng, 10))
     ) {
       apartmentsToShow.push({
-        id: 'newData',
+        _id: 'newData',
         latitude: data.lat,
         longitude: data.lng,
         ...data,

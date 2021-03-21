@@ -95,7 +95,7 @@ function ApartmentRow({apartment}) {
               >
                 <p>Rooms: {rooms}</p>
                 <p>Price: {price} $</p>
-                <p>Size: {size} &#13221;</p>
+                <p>Size: {size} &#13217;</p>
               </div>
             </div>
           </div>
