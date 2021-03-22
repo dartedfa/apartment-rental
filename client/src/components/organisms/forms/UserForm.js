@@ -3,6 +3,7 @@ import Form from '../../atoms/Form'
 import {FormGroup} from '../../atoms/FormGroup'
 import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
+import {useAuth} from '../../../context/auth-context'
 
 function UserForm({handleSubmit, title, user}) {
   const [state, setState] = useState({

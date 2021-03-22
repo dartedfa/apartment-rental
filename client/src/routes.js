@@ -8,6 +8,7 @@ import AddApartmentScreen from './components/screens/add-apartment'
 import UserListScreen from './components/screens/user-list'
 import EditUserScreen from './components/screens/edit-user'
 import AddUserScreen from './components/screens/add-user'
+import EditAccountScreen from './components/screens/edit-account'
 
 function AppRoutes() {
   const {user} = useAuth()
@@ -29,7 +30,7 @@ function AppRoutes() {
 
       <Route path="/apartments/:apartmentId" element={<ApartmentScreen />} />
 
-      <Route path="/account" element={<div>Account</div>} />
+      <Route path="/account" element={<EditAccountScreen />} />
 
       {isAdmin && <Route path="/users" element={<UserListScreen />} />}
       {isAdmin && (

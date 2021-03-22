@@ -13,6 +13,7 @@ import {ErrorBoundary} from 'react-error-boundary'
 
 import {useAuth} from './context/auth-context'
 import * as mq from './styles/media-queries'
+import {Link} from 'react-router-dom'
 
 function ErrorFallback({error}) {
   return (
@@ -42,13 +43,14 @@ function AuthenticatedApp() {
           right: '10px',
         }}
       >
-        <div
+        <Link
+          to={`/account`}
           css={{
             marginRight: 15,
           }}
         >
           {user.firstName} {user.lastName}
-        </div>
+        </Link>
         <LogOutButton />
       </div>
       <div
