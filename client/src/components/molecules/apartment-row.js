@@ -12,7 +12,7 @@ import {useRemoveApartment} from '../../utils/apartments'
 import {AiTwotoneEdit, FaMinusCircle} from 'react-icons/all'
 
 function ApartmentRow({apartment}) {
-  const {name, description, rooms, price, size} = apartment
+  const {name, description, rooms, price, size, isAvailable} = apartment
   const [handleRemoveApartment] = useRemoveApartment()
   const {user} = useAuth()
 
@@ -97,6 +97,10 @@ function ApartmentRow({apartment}) {
                 <p>Rooms: {rooms}</p>
                 <p>Price: {price} $</p>
                 <p>Size: {size} &#13217;</p>
+                <p>
+                  Status: Room is currently{' '}
+                  {isAvailable ? ' available' : 'rented'}
+                </p>
               </div>
             </div>
           </div>

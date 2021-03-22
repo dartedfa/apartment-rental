@@ -71,7 +71,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
         }}
       >
         <label css={{marginRight: 15}} htmlFor="isAvailable">
-          Rented
+          Available
         </label>
         <Input
           id="isAvailable"

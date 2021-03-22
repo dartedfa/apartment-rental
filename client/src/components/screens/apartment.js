@@ -26,6 +26,7 @@ function ApartmentScreen() {
     updatedAt = '',
     longitude,
     latitude,
+    isAvailable,
   } = apartment
 
   const date = updatedAt.split('T')[0]
@@ -57,6 +58,10 @@ function ApartmentScreen() {
               <p>Rooms: {rooms}</p>
               <p>Price: {price} $</p>
               <p>Size: {size} &#13221;</p>
+              <p>
+                Status: Room is currently{' '}
+                {isAvailable ? ' available' : 'rented'}
+              </p>
               <div>
                 <i>{firstName + ' ' + lastName}</i>
                 <span css={{marginRight: 6, marginLeft: 6}}>|</span>
