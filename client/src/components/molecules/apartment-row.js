@@ -16,7 +16,8 @@ function ApartmentRow({apartment}) {
   const [handleRemoveApartment] = useRemoveApartment()
   const {user} = useAuth()
 
-  const isRealtor = user.role >= 1
+  const isAdmin = user.role === 2
+  const canChangeApartment = isAdmin || user._id === apartment.realtor
 
   const id = `apartment-row-${apartment._id}`
 
@@ -101,7 +102,7 @@ function ApartmentRow({apartment}) {
           </div>
         </div>
       </Link>
-      {isRealtor && (
+      {canChangeApartment && (
         <div
           css={{
             marginLeft: '20px',
