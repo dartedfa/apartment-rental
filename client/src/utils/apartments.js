@@ -14,7 +14,7 @@ function useApartments(options = {}) {
   return result
 }
 
-const bookQueryConfig = {
+const queryConfig = {
   staleTime: 1000 * 60 * 60,
   cacheTime: 1000 * 60 * 60,
 }
@@ -28,7 +28,7 @@ function useApartment(apartmentId) {
         ...apartment,
         ...realtor,
       })),
-    ...bookQueryConfig,
+    ...queryConfig,
   })
   return response
 }
@@ -47,6 +47,8 @@ function onUpdateMutation(newItem) {
       return item._id === newItem._id ? {...item, ...newItem} : item
     })
   })
+
+  queryCache.setQueryData(['apartments', {apartmentId: newItem._id}], newItem)
 
   return () => queryCache.setQueryData('apartments', previousItems)
 }

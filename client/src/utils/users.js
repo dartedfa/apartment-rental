@@ -14,7 +14,7 @@ function useUsers(options = {}) {
   return result
 }
 
-const bookQueryConfig = {
+const queryConfig = {
   staleTime: 1000 * 60 * 60,
   cacheTime: 1000 * 60 * 60,
 }
@@ -27,7 +27,7 @@ function useUser(userId) {
       client(`users/${userId}`).then(({user}) => ({
         ...user,
       })),
-    ...bookQueryConfig,
+    ...queryConfig,
   })
   return response
 }
@@ -46,6 +46,8 @@ function onUpdateMutation(newItem) {
       return item._id === newItem._id ? {...item, ...newItem} : item
     })
   })
+
+  queryCache.setQueryData(['users', {userId: newItem._id}], newItem)
 
   return () => queryCache.setQueryData('users', previousItems)
 }
