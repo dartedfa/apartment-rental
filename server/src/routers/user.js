@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
+const {isAdmin} = require('../middleware/auth')
 const {sendActivationEmail} = require('../emails/account')
 const {handleBasicAuth, auth} = require('../middleware/auth')
 const router = new express.Router()
@@ -104,7 +105,7 @@ router.get('/verify', auth, async (req, res) => {
   }
 })
 
-router.post('/users', auth, async (req, res) => {
+router.post('/users', auth, isAdmin, async (req, res) => {
   const user = new User({
     ...req.body,
   })
@@ -117,26 +118,17 @@ router.post('/users', auth, async (req, res) => {
   }
 })
 
-router.get('/users', auth, async (req, res) => {
-  if (req.user.role !== 2) {
-    throw new Error("You don't have permission to access users list")
-  }
-
-  const users = await User.find({_id: {$ne: req.user._id}}).sort({_id: -1})
-
+router.get('/users', auth, isAdmin, async (req, res) => {
   try {
+    const users = await User.find({_id: {$ne: req.user._id}}).sort({_id: -1})
     res.status(200).send(users)
   } catch (e) {
     res.status(500).send(e)
   }
 })
 
-router.get('/users/:id', auth, async (req, res) => {
+router.get('/users/:id', auth, isAdmin, async (req, res) => {
   const _id = req.params.id
-
-  if (req.user.role !== 2) {
-    throw new Error("You don't have permission to access users list")
-  }
 
   try {
     const user = await User.findById({_id})
@@ -151,12 +143,8 @@ router.get('/users/:id', auth, async (req, res) => {
   }
 })
 
-router.patch('/users/:id', auth, async (req, res) => {
+router.patch('/users/:id', auth, isAdmin, async (req, res) => {
   const updates = Object.keys(req.body)
-
-  if (req.user.role !== 2) {
-    throw new Error("You don't have permission to access users list")
-  }
 
   try {
     const user = await User.findById({_id: req.params.id})
