@@ -22,7 +22,7 @@ router.post('/register', handleBasicAuth, async (req, res) => {
     res.status(201).send({invitation_sent: true})
   } catch (error) {
     if (error.code) {
-      return res.status(400).send({error: {email: 'Email is already taken.'}})
+      return res.status(400).send({error: 'Email is already taken.'})
     }
     return res.status(400).send(error)
   }
@@ -66,7 +66,7 @@ router.post('/login', handleBasicAuth, async (req, res) => {
 
     res.status(200).send({user, token})
   } catch (error) {
-    res.status(400).send({error: "User with provided email doesn't exist."})
+    res.status(400).send({error: "User with provided email doesn't exist or password is incorrect."})
   }
 })
 
