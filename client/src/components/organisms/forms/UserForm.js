@@ -18,6 +18,9 @@ function UserForm({handleSubmit, title, user, account}) {
 
   const {email, firstName, lastName, role, userType, verified} = state
 
+  const showRole =
+    user === undefined || (user._id !== account._id && account.role === 2)
+
   const setSingleState = ({target}) => {
     setState(prevState => ({
       ...prevState,
@@ -54,7 +57,7 @@ function UserForm({handleSubmit, title, user, account}) {
         <label htmlFor="email">Email</label>
         <Input id="email" type="text" value={email} onChange={setSingleState} />
       </FormGroup>
-      {user._id !== account._id && account.role === 2 && (
+      {showRole && (
         <FormGroup>
           <label htmlFor="role">Role</label>
           <select id="role" onChange={setSingleState} value={role}>
