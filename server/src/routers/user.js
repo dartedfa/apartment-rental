@@ -1,6 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
-const {isAdmin} = require('../middleware/auth')
+const permission = require('../middleware/permission')
 const {sendActivationEmail} = require('../emails/account')
 const {handleBasicAuth, auth} = require('../middleware/auth')
 const router = new express.Router()
@@ -107,7 +107,7 @@ router.get('/verify', auth, async (req, res) => {
   }
 })
 
-router.post('/users', auth, isAdmin, async (req, res) => {
+router.post('/users', auth, permission, async (req, res) => {
   const user = new User({
     ...req.body,
   })
@@ -120,8 +120,12 @@ router.post('/users', auth, isAdmin, async (req, res) => {
   }
 })
 
-router.get('/users', auth, isAdmin, async (req, res) => {
+router.get('/users', auth, async (req, res) => {
   try {
+    if (req.user.role !== 2) {
+      return res.status(403).send({error: `Insufficient permission.`})
+    }
+
     const users = await User.find({
       _id: {$ne: req.user._id},
       role: {$lt: 2},
@@ -132,7 +136,7 @@ router.get('/users', auth, isAdmin, async (req, res) => {
   }
 })
 
-router.get('/users/:id', auth, isAdmin, async (req, res) => {
+router.get('/users/:id', auth, permission, async (req, res) => {
   const _id = req.params.id
 
   try {
@@ -148,42 +152,31 @@ router.get('/users/:id', auth, isAdmin, async (req, res) => {
   }
 })
 
-router.patch('/users/:id', auth, isAdmin, async (req, res) => {
-  const updates = Object.keys(req.body)
-
+router.patch('/users/:id', auth, permission, async (req, res) => {
   try {
-    const user = await User.findById({_id: req.params.id})
+    const updates = Object.keys(req.body)
+    const user = req.user
 
-    if (!user) {
-      return res.status(404).send()
+    const oldUser = await User.findById({_id: req.user._id})
+    let shouldDeleteToken = false
+
+    updates.forEach(update => {
+      if (req.body[update] && req.body[update] !== user[update]) {
+        user[update] = req.body[update]
+      }
+    })
+
+    if (
+      updates.includes('password') ||
+      oldUser['email'] !== user['email'] ||
+      oldUser['role'] !== user['role']
+    ) {
+      shouldDeleteToken = true
+      user.tokens = []
     }
-
-    if (user.role === 2) {
-      return res
-        .status(403)
-        .send({error: `You don't have an access to edit user.`})
-    }
-
-    if (user.email !== req.user.email) {
-      const checkEmail = await User.find({email: req.body.email})
-
-      if (!!checkEmail) throw new Error('User with email already exists.')
-    }
-
-    req.body.password = Buffer.from(req.body.password, 'base64').toString(
-      'ascii',
-    )
-
-    if (req.body.password === '') {
-      delete req.body.password
-    }
-
-    delete req.body._id
-
-    updates.forEach(update => (user[update] = req.body[update]))
 
     await user.save()
-    res.send(user)
+    res.send({user, shouldDeleteToken})
   } catch (e) {
     res.status(400).send(e)
   }

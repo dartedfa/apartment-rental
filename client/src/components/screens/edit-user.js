@@ -23,7 +23,7 @@ function EditUserScreen() {
         user={user}
         title="Edit User"
         handleSubmit={data => {
-          handleSubmitUpdate(data)
+          handleSubmitUpdate({...data, target: data._id})
           navigate('/users')
         }}
       />

@@ -58,7 +58,9 @@ function useUpdateUser(options) {
     updates =>
       client(`users/${updates._id}`, {
         method: 'PATCH',
-        data: updates,
+        data: {
+          ...updates,
+        },
       }),
     {
       onMutate: onUpdateMutation,
