@@ -1,7 +1,7 @@
 /** @jsxRuntime classic /
  /** @jsx jsx */
 import {jsx} from '@emotion/react'
-// import * as React from 'react'
+import * as React from 'react'
 import ApartmentForm from '../organisms/forms/apartment-form'
 import {useApartment, useUpdateApartment} from '../../utils/apartments'
 import {useParams} from 'react-router-dom'
@@ -25,7 +25,6 @@ function EditApartmentScreen() {
       <ApartmentForm
         apartment={apartment}
         handleSubmit={data => {
-          console.log(data)
           handleSubmitUpdate(data)
           navigate('/')
         }}

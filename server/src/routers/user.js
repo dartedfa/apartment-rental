@@ -66,7 +66,9 @@ router.post('/login', handleBasicAuth, async (req, res) => {
 
     res.status(200).send({user, token})
   } catch (error) {
-    res.status(400).send({error: "User with provided email doesn't exist or password is incorrect."})
+    res.status(400).send({
+      error: "User with provided email doesn't exist or password is incorrect.",
+    })
   }
 })
 
@@ -120,7 +122,10 @@ router.post('/users', auth, isAdmin, async (req, res) => {
 
 router.get('/users', auth, isAdmin, async (req, res) => {
   try {
-    const users = await User.find({_id: {$ne: req.user._id}}).sort({_id: -1})
+    const users = await User.find({
+      _id: {$ne: req.user._id},
+      role: {$lt: 2},
+    }).sort({_id: -1})
     res.status(200).send(users)
   } catch (e) {
     res.status(500).send(e)
@@ -133,7 +138,7 @@ router.get('/users/:id', auth, isAdmin, async (req, res) => {
   try {
     const user = await User.findById({_id})
 
-    if (!user) {
+    if (!user || user.role === 2) {
       return res.status(404).send()
     }
 
@@ -152,6 +157,28 @@ router.patch('/users/:id', auth, isAdmin, async (req, res) => {
     if (!user) {
       return res.status(404).send()
     }
+
+    if (user.role === 2) {
+      return res
+        .status(403)
+        .send({error: `You don't have an access to edit user.`})
+    }
+
+    if (user.email !== req.user.email) {
+      const checkEmail = await User.find({email: req.body.email})
+
+      if (!!checkEmail) throw new Error('User with email already exists.')
+    }
+
+    req.body.password = Buffer.from(req.body.password, 'base64').toString(
+      'ascii',
+    )
+
+    if (req.body.password === '') {
+      delete req.body.password
+    }
+
+    delete req.body._id
 
     updates.forEach(update => (user[update] = req.body[update]))
 
