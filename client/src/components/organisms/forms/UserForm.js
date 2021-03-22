@@ -4,8 +4,9 @@ import {FormGroup} from '../../atoms/FormGroup'
 import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
 import {useAuth} from '../../../context/auth-context'
+import {useLocation} from 'react-router'
 
-function UserForm({handleSubmit, title, user, account}) {
+function UserForm({handleSubmit, title, user}) {
   const [state, setState] = useState({
     _id: user?._id,
     email: user?.email || '',
@@ -14,12 +15,14 @@ function UserForm({handleSubmit, title, user, account}) {
     role: user?.role || 0,
     userType: user?.userType || '',
     verified: user?.verified || false,
+    password: '',
   })
 
   const {email, firstName, lastName, role, userType, verified} = state
+  const {pathname} = useLocation()
+  const {user: account} = useAuth()
 
-  const showRole =
-    user === undefined || (user._id !== account._id && account.role === 2)
+  const showRole = account?.role === 2 && pathname !== '/account'
 
   const setSingleState = ({target}) => {
     setState(prevState => ({
@@ -69,7 +72,12 @@ function UserForm({handleSubmit, title, user, account}) {
       )}
       <FormGroup>
         <label htmlFor="password">Password</label>
-        <Input id="password" type="password" />
+        <Input
+          id="password"
+          type="password"
+          value={state.password}
+          onChange={setSingleState}
+        />
       </FormGroup>
       <div>
         <Button type="submit" variant="secondary">

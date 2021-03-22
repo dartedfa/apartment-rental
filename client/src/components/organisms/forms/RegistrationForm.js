@@ -7,17 +7,15 @@ const RegistrationForm = () => {
   const {register} = useAuth()
   const {isLoading, isError, error, run} = useAsync()
 
-  const handleSubmit = event => {
-    event.preventDefault()
-
-    const {email, password, firstName, lastName} = event.target.elements
+  const handleSubmit = state => {
+    const {email, password, firstName, lastName} = state
 
     run(
       register({
-        email: email.value,
-        password: password.value,
-        firstName: firstName.value,
-        lastName: lastName.value,
+        email,
+        password,
+        firstName,
+        lastName,
       }),
     )
   }
