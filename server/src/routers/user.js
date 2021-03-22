@@ -121,8 +121,8 @@ router.get('/users', auth, async (req, res) => {
   if (req.user.role !== 2) {
     throw new Error("You don't have permission to access users list")
   }
+  const users = await User.find({_id: {$ne: req.user._id}}).sort({_id: -1})
 
-  const users = await User.find().sort({_id: -1})
   try {
     res.status(200).send(users)
   } catch (e) {
