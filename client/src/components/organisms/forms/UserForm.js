@@ -5,7 +5,7 @@ import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
 import {useAuth} from '../../../context/auth-context'
 
-function UserForm({handleSubmit, title, user}) {
+function UserForm({handleSubmit, title, user, account}) {
   const [state, setState] = useState({
     _id: user?._id,
     email: user?.email || '',
@@ -54,14 +54,16 @@ function UserForm({handleSubmit, title, user}) {
         <label htmlFor="email">Email</label>
         <Input id="email" type="text" value={email} onChange={setSingleState} />
       </FormGroup>
-      <FormGroup>
-        <label htmlFor="role">Role</label>
-        <select id="role" onChange={setSingleState} value={role}>
-          <option value={0}>User</option>
-          <option value={1}>Realtor</option>
-          <option value={2}>Admin</option>
-        </select>
-      </FormGroup>
+      {user._id !== account._id && account.role === 2 && (
+        <FormGroup>
+          <label htmlFor="role">Role</label>
+          <select id="role" onChange={setSingleState} value={role}>
+            <option value={0}>User</option>
+            <option value={1}>Realtor</option>
+            <option value={2}>Admin</option>
+          </select>
+        </FormGroup>
+      )}
       <FormGroup>
         <label htmlFor="password">Password</label>
         <Input id="password" type="password" />

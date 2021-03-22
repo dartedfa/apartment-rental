@@ -14,6 +14,7 @@ function EditAccountScreen() {
       <h1>Edit account</h1>
       <UserForm
         user={user}
+        account={user}
         title="Edit account"
         handleSubmit={data => {
           console.log(data)
