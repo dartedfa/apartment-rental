@@ -7,8 +7,8 @@ import {useDropzone} from 'react-dropzone'
 import {useState} from 'react'
 import Avatar from '../atoms/avatar'
 
-function UploadAvatar({onAvatarChange}) {
-  const [imageSource, setImageSource] = React.useState('')
+function UploadAvatar({avatar, onAvatarChange}) {
+  const [imageSource, setImageSource] = React.useState(avatar)
   const [error, setError] = useState('')
 
   const onDrop = React.useCallback(

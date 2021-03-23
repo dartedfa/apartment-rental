@@ -8,14 +8,15 @@ import {useState} from 'react'
 
 function EditAccountScreen() {
   const [handleSubmitUpdate] = useUpdateUser({throwOnError: true})
-  const [avatar, setAvatar] = useState('')
   const {user} = useAuth()
+
+  const [avatar, setAvatar] = useState(user.avatar || '')
   const navigate = useNavigate()
 
   return (
     <>
       <h1>Edit account</h1>
-      <UploadAvatar onAvatarChange={setAvatar} />
+      <UploadAvatar avatar={avatar} onAvatarChange={setAvatar} />
       <UserForm
         user={user}
         account={user}
