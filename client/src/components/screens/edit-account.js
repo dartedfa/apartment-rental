@@ -16,7 +16,9 @@ function EditAccountScreen() {
   return (
     <>
       <h1>Edit account</h1>
-      <UploadAvatar avatar={avatar} onAvatarChange={setAvatar} />
+      {user.userType === 'regular' && (
+        <UploadAvatar avatar={avatar} onAvatarChange={setAvatar} />
+      )}
       <UserForm
         user={user}
         account={user}
