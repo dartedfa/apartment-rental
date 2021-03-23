@@ -1,6 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
-const permission = require('../middleware/permission')
+const {permission} = require('../middleware/permission')
 const {sendActivationEmail} = require('../emails/account')
 const {handleBasicAuth, auth} = require('../middleware/auth')
 const router = new express.Router()
@@ -128,7 +128,6 @@ router.get('/users', auth, async (req, res) => {
 
     const users = await User.find({
       _id: {$ne: req.user._id},
-      role: {$lt: 2},
     }).sort({_id: -1})
     res.status(200).send(users)
   } catch (e) {

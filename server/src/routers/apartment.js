@@ -1,10 +1,11 @@
 const express = require('express')
 const Apartment = require('../models/apartment')
 const User = require('../models/user')
+const {canCrudApartment} = require('../middleware/permission')
 const {auth} = require('../middleware/auth')
 const router = new express.Router()
 
-router.post('/apartments', auth, async (req, res) => {
+router.post('/apartments', auth, canCrudApartment, async (req, res) => {
   const apartment = new Apartment({
     ...req.body,
     realtor: req.user._id,
@@ -34,6 +35,7 @@ router.get('/apartments', auth, async (req, res) => {
 
 router.get('/apartments/:id', auth, async (req, res) => {
   const _id = req.params.id
+  const isClient = req.user.role === 0
 
   try {
     const apartment = await Apartment.findOne({_id})
@@ -43,13 +45,17 @@ router.get('/apartments/:id', auth, async (req, res) => {
       return res.status(404).send()
     }
 
+    if (!apartment.isAvailable && isClient) {
+      return res.status(403).send({error: `Insufficient permission.`})
+    }
+
     res.send({apartment, realtor: {firstName, lastName, email}})
   } catch (e) {
     res.status(500).send()
   }
 })
 
-router.patch('/apartments/:id', auth, async (req, res) => {
+router.patch('/apartments/:id', auth, canCrudApartment, async (req, res) => {
   const updates = Object.keys(req.body)
 
   try {
@@ -60,7 +66,6 @@ router.patch('/apartments/:id', auth, async (req, res) => {
     }
 
     updates.forEach(update => (apartment[update] = req.body[update]))
-    apartment['realtor'] = req.user._id
 
     await apartment.save()
     res.send(apartment)
@@ -69,7 +74,7 @@ router.patch('/apartments/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/apartments/:id', auth, async (req, res) => {
+router.delete('/apartments/:id', auth, canCrudApartment, async (req, res) => {
   try {
     const apartment = await Apartment.findOneAndDelete({_id: req.params.id})
 

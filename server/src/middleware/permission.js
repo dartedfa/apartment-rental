@@ -3,16 +3,11 @@ const User = require('../models/user')
 const permission = async (req, res, next) => {
   try {
     const target = req.body.target || req.query.target
-    const role = req.user.role
 
     if (!target) {
       return next()
     }
     const user = await User.findOne({_id: target})
-
-    if (role === user.role) {
-      return res.status(403).send({error: `Insufficient permission.`})
-    }
 
     req.user = user
     return next()
@@ -21,4 +16,14 @@ const permission = async (req, res, next) => {
   }
 }
 
-module.exports = permission
+const canCrudApartment = async (req, res, next) => {
+  const role = req.user.role
+
+  if (role > 1) {
+    return res.status(403).send({error: `Insufficient permission.`})
+  }
+
+  return next()
+}
+
+module.exports = {permission, canCrudApartment}
