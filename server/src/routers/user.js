@@ -31,7 +31,7 @@ router.post('/register', handleBasicAuth, async (req, res) => {
 router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
   try {
     let user = await User.findOne({email: req.body.email})
-    user['avatar'] = req.body.avatar
+    if (user) user['avatar'] = req.body.avatar
 
     if (!user) {
       const externalId = req.body.externalId
@@ -154,6 +154,7 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
     const user = req.user
 
     const oldUser = await User.findById({_id: req.user._id})
+
     let shouldDeleteToken = false
 
     updates.forEach(update => {
@@ -161,6 +162,10 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
         user[update] = req.body[update]
       }
     })
+
+    if (oldUser['email'] !== user['email'] && user['userType'] !== 'regular') {
+      throw new Error(`Can't change user email for ${user['userType']} users.`)
+    }
 
     if (
       (updates.includes('password') && !!req.body.password) ||
