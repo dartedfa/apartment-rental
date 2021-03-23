@@ -96,7 +96,7 @@ router.get('/me', auth, async (req, res) => {
   }
 })
 
-router.get('/verify', auth, async (req, res) => {
+router.post('/verify', auth, async (req, res) => {
   try {
     req.user.tokens = []
     req.user.verified = true

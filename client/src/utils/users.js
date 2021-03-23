@@ -86,7 +86,7 @@ function useCreateUser(options) {
 function useVerifyUser(navigate, token) {
   const client = useClient(token)
 
-  return useMutation(() => client('/verify'), {
+  return useMutation(() => client('verify', {method: 'POST'}), {
     onSuccess: () => navigate('/'),
   })
 }
