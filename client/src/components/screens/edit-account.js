@@ -17,7 +17,6 @@ function EditAccountScreen() {
         account={user}
         title="Edit account"
         handleSubmit={data => {
-          console.log(data)
           handleSubmitUpdate(data)
           navigate('/')
         }}

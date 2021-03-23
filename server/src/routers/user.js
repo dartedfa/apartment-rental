@@ -142,10 +142,6 @@ router.get('/users/:id', auth, permission, async (req, res) => {
   try {
     const user = await User.findById({_id})
 
-    if (!user || user.role === 2) {
-      return res.status(404).send()
-    }
-
     res.status(200).send({user})
   } catch (e) {
     res.status(500).send()
