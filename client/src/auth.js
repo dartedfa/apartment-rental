@@ -46,4 +46,11 @@ async function client(endpoint, {email = '', password = '', ...body}) {
   })
 }
 
-export {getToken, register, login, handleThirdPartyAuthentication, logout}
+export {
+  getToken,
+  register,
+  login,
+  handleThirdPartyAuthentication,
+  logout,
+  localStorageKey,
+}
