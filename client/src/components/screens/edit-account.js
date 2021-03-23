@@ -23,10 +23,10 @@ function EditAccountScreen() {
       firstName,
       lastName,
     })
-    console.log(error, password)
+    //console.log(error, password)
 
-    //handleSubmitUpdate({...data, avatar})
-    // navigate('/')
+    handleSubmitUpdate({...data, avatar})
+    navigate('/')
   }
 
   return (
