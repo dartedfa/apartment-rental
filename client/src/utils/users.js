@@ -1,5 +1,6 @@
 import {queryCache, useMutation, useQuery} from 'react-query'
 import {useClient} from 'context/auth-context'
+import {localStorageKey} from '../auth'
 
 // Initialize Loading users and loadingUser
 
@@ -82,6 +83,14 @@ function useCreateUser(options) {
   })
 }
 
+function useVerifyUser(navigate, token) {
+  const client = useClient(token)
+
+  return useMutation(() => client('verify', {method: 'POST'}), {
+    onSuccess: () => navigate('/'),
+  })
+}
+
 function useRemoveUser(options) {
   const client = useClient()
 
@@ -100,4 +109,11 @@ function useRemoveUser(options) {
   })
 }
 
-export {useUsers, useUser, useUpdateUser, useRemoveUser, useCreateUser}
+export {
+  useUsers,
+  useUser,
+  useUpdateUser,
+  useRemoveUser,
+  useCreateUser,
+  useVerifyUser,
+}

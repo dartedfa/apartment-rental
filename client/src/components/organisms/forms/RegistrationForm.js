@@ -7,13 +7,14 @@ import {useAuth} from '../../../context/auth-context'
 import {useAsync} from '../../../utils/hooks'
 import UserForm from './UserForm'
 import {validateUserForm} from '../../../utils/helpers'
+import {useNavigate} from 'react-router'
 import * as colors from '../../../styles/colors'
 
 const RegistrationForm = () => {
   const {register} = useAuth()
   const {isLoading, isError, error, run} = useAsync()
   const [stateError, setStateError] = useState('')
-
+  const navigate = useNavigate()
   const handleSubmit = state => {
     const {email, password, firstName, lastName} = state
 
@@ -37,7 +38,9 @@ const RegistrationForm = () => {
         firstName,
         lastName,
       }),
-    )
+    ).then(() => {
+      navigate('/verify')
+    })
   }
   return (
     <>

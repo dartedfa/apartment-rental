@@ -19,13 +19,14 @@ async function client(
   }
 
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
-    if (response.status === 401) {
+    const data = await response.json()
+
+    if (response.status === 401 || data.shouldDeleteToken) {
       queryCache.clear()
       await auth.logout()
       window.location.assign(window.location)
       return Promise.reject({message: 'Please re-authenticate.'})
     }
-    const data = await response.json()
     if (response.ok) {
       return data
     } else {

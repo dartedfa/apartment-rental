@@ -37,6 +37,7 @@ function FacebookLoginButton() {
       firstName,
       lastName,
       userType: 'facebook',
+      avatar: data.picture?.data?.url,
     }
 
     handleThirdPartyAuthentication(userData)

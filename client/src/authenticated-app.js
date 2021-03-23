@@ -53,7 +53,12 @@ function AuthenticatedApp() {
             textDecoration: 'none',
           }}
         >
-          <Avatar src={user.avatar} width={45} height={45} />
+          <Avatar
+            style={{marginRight: 10}}
+            src={user.avatar}
+            width={45}
+            height={45}
+          />
           {user.firstName} {user.lastName}
         </Link>
         <LogOutButton />

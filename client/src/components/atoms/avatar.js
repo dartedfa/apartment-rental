@@ -1,7 +1,7 @@
 import React from 'react'
 import userPlaceholderSvg from '../../assets/user-placeholder.svg'
 
-function Avatar({src, width = '50', height = '50'}) {
+function Avatar({src, width = '50', height = '50', style = {}}) {
   return (
     <>
       <img
@@ -9,6 +9,7 @@ function Avatar({src, width = '50', height = '50'}) {
         alt="Avatar"
         width={width}
         height={height}
+        style={style}
       />
     </>
   )

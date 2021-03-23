@@ -89,9 +89,9 @@ function useAuth() {
   return context
 }
 
-function useClient() {
+function useClient(forcedToken) {
   const {user} = useAuth()
-  const token = user?.token
+  const token = user?.token || forcedToken
   return React.useCallback(
     (endpoint, config) => client(endpoint, {...config, token}),
     [token],
