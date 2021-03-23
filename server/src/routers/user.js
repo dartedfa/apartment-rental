@@ -163,7 +163,7 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
     })
 
     if (
-      updates.includes('password') ||
+      (updates.includes('password') && !!req.body.password) ||
       oldUser['email'] !== user['email'] ||
       oldUser['role'] !== user['role']
     ) {
