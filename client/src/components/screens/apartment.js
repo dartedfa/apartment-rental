@@ -9,6 +9,7 @@ import * as mq from 'styles/media-queries'
 import apartmentPlaceholderSvg from 'assets/apartment-rent-placeholder.svg'
 import {Link} from '../atoms/link'
 import GoogleMap from '../organisms/GoogleMap'
+import * as colors from '../../styles/colors'
 
 function ApartmentScreen() {
   const {apartmentId} = useParams()
@@ -39,6 +40,9 @@ function ApartmentScreen() {
           gridTemplateColumns: '1fr 2fr',
           gridGap: '2em',
           marginBottom: '1em',
+          backgroundColor: colors.base,
+          border: `1px solid ${colors.gray}`,
+          padding: 10,
           [mq.small]: {
             display: 'flex',
             flexDirection: 'column',

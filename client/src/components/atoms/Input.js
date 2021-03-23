@@ -11,6 +11,7 @@ const inputStyles = {
 export const Input = styled.input(inputStyles, {
   borderTopLeftRadius: '.3rem',
   borderTopRightRadius: '.3rem',
+  outline: 'none',
   borderBottom: `1px solid ${colors.gray80}`,
 })
 

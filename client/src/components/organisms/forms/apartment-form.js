@@ -10,6 +10,7 @@ import {Button} from '../../atoms/Button'
 import GoogleMap from '../GoogleMap'
 import {useAuth} from '../../../context/auth-context'
 import {useUsers} from '../../../utils/users'
+import * as colors from '../../../styles/colors'
 
 function ApartmentForm({handleSubmit, action, apartment}) {
   const [state, setState] = useState({
@@ -63,10 +64,13 @@ function ApartmentForm({handleSubmit, action, apartment}) {
   }
 
   return (
-    <Form fullScreen={true} onSubmit={handleValidateBeforeSubmit}>
+    <Form
+      fullScreen={true}
+      onSubmit={handleValidateBeforeSubmit}
+      css={{backgroundColor: colors.base, border: `1px solid ${colors.gray}`}}
+    >
       <FormGroup
         css={{
-          display: 'flex',
           flexDirection: 'row',
         }}
       >
@@ -81,11 +85,11 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="name">Name</label>
         <Input id="name" type="text" value={name} onChange={setSingleState} />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="description">Description</label>
         <Input
           id="description"
@@ -94,7 +98,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="price">Price</label>
         <Input
           id="price"
@@ -103,11 +107,11 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="size">Size</label>
         <Input id="size" type="number" value={size} onChange={setSingleState} />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="rooms">Rooms</label>
         <Input
           id="rooms"
@@ -116,7 +120,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="longitude">Longitude</label>
         <Input
           id="longitude"
@@ -125,7 +129,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           type="number"
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="latitude">Latitude</label>
         <Input
           id="latitude"
@@ -134,13 +138,8 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           type="number"
         />
       </FormGroup>
-      <div>
-        <Button type="submit" variant="secondary">
-          {action}
-        </Button>
-      </div>
       {isAdmin && (
-        <FormGroup>
+        <FormGroup inLine={true}>
           <label htmlFor="realtors">Realtors</label>
           <select id="realtors" onChange={setSingleState} value={realtor}>
             <option value="">Select Realtor</option>
@@ -158,7 +157,13 @@ function ApartmentForm({handleSubmit, action, apartment}) {
           </select>
         </FormGroup>
       )}
+      <div css={{textAlign: 'right'}}>
+        <Button type="submit" variant="secondary">
+          {action}
+        </Button>
+      </div>
       <GoogleMap
+        css={{marginTop: 'auto'}}
         data={{lat: latitude, lng: longitude}}
         changeCoordinate={changePosition}
       />

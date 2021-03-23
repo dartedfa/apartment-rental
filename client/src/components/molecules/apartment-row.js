@@ -28,6 +28,7 @@ function ApartmentRow({apartment}) {
         alignItems: 'center',
         justifyContent: 'flex-end',
         position: 'relative',
+        backgroundColor: colors.base,
       }}
     >
       <Link

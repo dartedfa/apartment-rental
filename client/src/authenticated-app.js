@@ -14,6 +14,8 @@ import {ErrorBoundary} from 'react-error-boundary'
 import {useAuth} from './context/auth-context'
 import * as mq from './styles/media-queries'
 import {Link} from 'react-router-dom'
+import Avatar from './components/atoms/avatar'
+import * as colors from './styles/colors'
 
 function ErrorFallback({error}) {
   return (
@@ -32,23 +34,26 @@ function ErrorFallback({error}) {
 
 function AuthenticatedApp() {
   const {user} = useAuth()
+
   return (
     <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
       <div
         css={{
           display: 'flex',
           alignItems: 'center',
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
+          justifyContent: 'flex-end',
+          padding: 10,
+          backgroundColor: colors.base,
         }}
       >
         <Link
           to={`/account`}
           css={{
             marginRight: 15,
+            textDecoration: 'none',
           }}
         >
+          <Avatar src={user.avatar} width={45} height={45} />
           {user.firstName} {user.lastName}
         </Link>
         <LogOutButton />

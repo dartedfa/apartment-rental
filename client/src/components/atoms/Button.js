@@ -40,6 +40,19 @@ export const CircleButton = styled.button({
   cursor: 'pointer',
 })
 
+export const AddButton = styled.button({
+  padding: '1.5rem 2rem',
+  fontSize: '1.5rem',
+  cursor: 'pointer',
+  borderRadius: 4,
+  lineHeight: '1',
+  display: 'flex',
+  color: colors.text,
+  marginBottom: 20,
+  border: `1px solid ${colors.orange}`,
+  backgroundColor: colors.base,
+})
+
 export function ActionButton({
   label,
   highlight,
