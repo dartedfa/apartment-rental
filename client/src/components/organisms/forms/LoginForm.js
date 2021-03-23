@@ -1,3 +1,7 @@
+/** @jsxRuntime classic /
+ /** @jsx jsx */
+import {jsx} from '@emotion/react'
+
 import React, {useState} from 'react'
 import {useAuth} from '../../../context/auth-context'
 import {FormGroup} from '../../atoms/FormGroup'
@@ -8,6 +12,7 @@ import Form from '../../atoms/Form'
 import GoogleButton from '../../atoms/GoogleButton'
 import FacebookButton from '../../atoms/FacebookButton'
 import {validateUserForm} from '../../../utils/helpers'
+import * as colors from '../../../styles/colors'
 
 function LoginForm() {
   const [stateError, setStateError] = useState('')
@@ -37,7 +42,13 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      {(stateError || isError) && <p>{error?.error || stateError}</p>}
+      {(stateError || isError) && (
+        <p
+          css={{textAlign: 'center', color: colors.danger, fontSize: '1.4rem'}}
+        >
+          {error?.error || stateError}
+        </p>
+      )}
       <FormGroup>
         <label htmlFor="email">Email</label>
         <Input id="email" type="text" />

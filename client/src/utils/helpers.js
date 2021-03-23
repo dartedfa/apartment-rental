@@ -30,7 +30,7 @@ export function validateUserForm(state) {
 
   if (!isEmail(email)) return 'Please provide correct E-mail.'
 
-  if (password.length < 6) return 'Please provide correct Password.'
+  if (password.length < 6) return 'Please provide strong Password.'
 
   return false
 }

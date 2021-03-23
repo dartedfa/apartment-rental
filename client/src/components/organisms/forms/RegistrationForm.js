@@ -1,8 +1,13 @@
+/** @jsxRuntime classic /
+ /** @jsx jsx */
+import {jsx} from '@emotion/react'
+
 import React, {useState} from 'react'
 import {useAuth} from '../../../context/auth-context'
 import {useAsync} from '../../../utils/hooks'
 import UserForm from './UserForm'
 import {validateUserForm} from '../../../utils/helpers'
+import * as colors from '../../../styles/colors'
 
 const RegistrationForm = () => {
   const {register} = useAuth()
@@ -36,7 +41,13 @@ const RegistrationForm = () => {
   }
   return (
     <>
-      {(stateError || isError) && <p>{stateError || error?.error}</p>}
+      {(stateError || isError) && (
+        <p
+          css={{textAlign: 'center', color: colors.danger, fontSize: '1.4rem'}}
+        >
+          {stateError || error?.error}
+        </p>
+      )}
       <UserForm handleSubmit={handleSubmit} title="Register" />
     </>
   )

@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router'
 const style = {
   minWidth: 270,
   height: 300,
+  position: 'unset',
 }
 
 function GoogleMap({google, data, changeCoordinate}) {
