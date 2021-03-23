@@ -31,6 +31,7 @@ function GoogleLoginButton({width = 220, height = 100}) {
   const handleGoogleAuth = data => {
     const userData = {
       accessToken: data.accessToken,
+      avatar: data.profileObj.imageUrl,
       externalId: data.googleId,
       email: data.profileObj.email,
       firstName: data.profileObj.givenName,

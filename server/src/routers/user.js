@@ -31,6 +31,7 @@ router.post('/register', handleBasicAuth, async (req, res) => {
 router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
   try {
     let user = await User.findOne({email: req.body.email})
+    user['avatar'] = req.body.avatar
 
     if (!user) {
       const externalId = req.body.externalId
@@ -41,9 +42,9 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
         externalId,
         verified: true,
       })
-
-      await user.save()
     }
+
+    await user.save()
 
     let token = await user.generateAuthToken(req.body.accessToken)
     token += `type=${req.body.userType}`
