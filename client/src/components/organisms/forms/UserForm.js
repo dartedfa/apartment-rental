@@ -1,3 +1,7 @@
+/** @jsxRuntime classic /
+ /** @jsx jsx */
+import {jsx} from '@emotion/react'
+
 import React, {useState} from 'react'
 import Form from '../../atoms/Form'
 import {FormGroup} from '../../atoms/FormGroup'
@@ -5,6 +9,7 @@ import {Input} from '../../atoms/Input'
 import {Button} from '../../atoms/Button'
 import {useAuth} from '../../../context/auth-context'
 import {useLocation} from 'react-router'
+import * as colors from '../../../styles/colors'
 
 function UserForm({handleSubmit, title, user}) {
   const [state, setState] = useState({
@@ -37,8 +42,14 @@ function UserForm({handleSubmit, title, user}) {
   }
 
   return (
-    <Form onSubmit={handleValidateBeforeSubmit}>
-      <FormGroup>
+    <Form
+      onSubmit={handleValidateBeforeSubmit}
+      fullScreen={true}
+      css={{
+        backgroundColor: colors.base,
+      }}
+    >
+      <FormGroup inLine={true}>
         <label htmlFor="firstName">Firstname</label>
         <Input
           id="firstName"
@@ -47,7 +58,7 @@ function UserForm({handleSubmit, title, user}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup inLine={true}>
         <label htmlFor="lastName">Lastname</label>
         <Input
           id="lastName"
@@ -56,12 +67,19 @@ function UserForm({handleSubmit, title, user}) {
           onChange={setSingleState}
         />
       </FormGroup>
-      <FormGroup>
-        <label htmlFor="email">Email</label>
-        <Input id="email" type="text" value={email} onChange={setSingleState} />
-      </FormGroup>
+      {(user?.userType === 'regular' || !user) && (
+        <FormGroup inLine={true}>
+          <label htmlFor="email">Email</label>
+          <Input
+            id="email"
+            type="text"
+            value={email}
+            onChange={setSingleState}
+          />
+        </FormGroup>
+      )}
       {showRole && (
-        <FormGroup>
+        <FormGroup inLine={true}>
           <label htmlFor="role">Role</label>
           <select id="role" onChange={setSingleState} value={role}>
             <option value={0}>User</option>
@@ -70,16 +88,18 @@ function UserForm({handleSubmit, title, user}) {
           </select>
         </FormGroup>
       )}
-      <FormGroup>
-        <label htmlFor="password">Password</label>
-        <Input
-          id="password"
-          type="password"
-          value={state.password}
-          onChange={setSingleState}
-        />
-      </FormGroup>
-      <div>
+      {(user?.userType === 'regular' || !user) && (
+        <FormGroup inLine={true}>
+          <label htmlFor="password">Password</label>
+          <Input
+            id="password"
+            type="password"
+            value={state.password}
+            onChange={setSingleState}
+          />
+        </FormGroup>
+      )}
+      <div css={{textAlign: 'right'}}>
         <Button type="submit" variant="secondary">
           {title}
         </Button>

@@ -29,6 +29,7 @@ function UserRow({users}) {
         alignItems: 'center',
         justifyContent: 'flex-end',
         position: 'relative',
+        backgroundColor: colors.base,
       }}
     >
       <Link

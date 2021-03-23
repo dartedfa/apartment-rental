@@ -72,6 +72,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
       <FormGroup
         css={{
           flexDirection: 'row',
+          justifyContent: 'flex-end',
         }}
       >
         <label css={{marginRight: 15}} htmlFor="isAvailable">
@@ -163,7 +164,6 @@ function ApartmentForm({handleSubmit, action, apartment}) {
         </Button>
       </div>
       <GoogleMap
-        css={{marginTop: 'auto'}}
         data={{lat: latitude, lng: longitude}}
         changeCoordinate={changePosition}
       />
