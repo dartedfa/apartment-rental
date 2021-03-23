@@ -7,18 +7,34 @@ import {useAuth} from '../../context/auth-context'
 import {FormGroup} from '../atoms/FormGroup'
 import {Input} from '../atoms/Input'
 import {Link} from '../atoms/link'
+import {gray10, orange} from '../../styles/colors'
+import {AddButton} from '../atoms/Button'
+import {useNavigate} from 'react-router'
 
 function Filters({state, setState}) {
   const {user} = useAuth()
   const canAddApartment = user.role >= 1
   const {size, price, rooms} = state
+  const navigate = useNavigate()
   return (
     <>
-      <div>
-        <div css={{width: 150}}>
-          <h3>Filter by rooms</h3>
+      <div
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          border: '1px solid #e4e5e9',
+          padding: 10,
+          marginBottom: 20,
+          backgroundColor: orange,
+          fontSize: '1.3rem',
+        }}
+      >
+        <div css={{width: '30%'}}>
+          <h3 css={{color: gray10}}>Filter by rooms</h3>
           <FormGroup>
-            <label htmlFor="rooms-min">Min</label>
+            <label htmlFor="rooms-min" css={{color: 'white'}}>
+              Min
+            </label>
             <Input
               id="rooms-min"
               value={rooms.min}
@@ -32,7 +48,9 @@ function Filters({state, setState}) {
             />
           </FormGroup>
           <FormGroup>
-            <label htmlFor="rooms-max">Max</label>
+            <label htmlFor="rooms-max" css={{color: 'white'}}>
+              Max
+            </label>
             <Input
               id="rooms-max"
               value={rooms.max}
@@ -47,10 +65,12 @@ function Filters({state, setState}) {
           </FormGroup>
         </div>
 
-        <div css={{width: 150}}>
-          <h3>Filter by size</h3>
+        <div css={{width: '30%'}}>
+          <h3 css={{color: gray10}}>Filter by size</h3>
           <FormGroup>
-            <label htmlFor="size-min">Min</label>
+            <label htmlFor="size-min" css={{color: 'white'}}>
+              Min
+            </label>
             <Input
               id="size-min"
               value={size.min}
@@ -64,7 +84,9 @@ function Filters({state, setState}) {
             />
           </FormGroup>
           <FormGroup>
-            <label htmlFor="size-max">Max</label>
+            <label htmlFor="size-max" css={{color: 'white'}}>
+              Max
+            </label>
             <Input
               id="size-max"
               value={size.max}
@@ -79,10 +101,12 @@ function Filters({state, setState}) {
           </FormGroup>
         </div>
 
-        <div css={{width: 150}}>
-          <h3>Filter by price</h3>
+        <div css={{width: '30%'}}>
+          <h3 css={{color: gray10}}>Filter by price</h3>
           <FormGroup>
-            <label htmlFor="price-min">Min</label>
+            <label htmlFor="price-min" css={{color: 'white'}}>
+              Min
+            </label>
             <Input
               id="price-min"
               value={price.min}
@@ -96,7 +120,9 @@ function Filters({state, setState}) {
             />
           </FormGroup>
           <FormGroup>
-            <label htmlFor="price-max">Max</label>
+            <label htmlFor="price-max" css={{color: 'white'}}>
+              Max
+            </label>
             <Input
               id="price-max"
               value={price.max}
@@ -110,9 +136,16 @@ function Filters({state, setState}) {
             />
           </FormGroup>
         </div>
-
-        {canAddApartment && <Link to="/apartments/new">Add new Apartment</Link>}
       </div>
+      {canAddApartment && (
+        <AddButton
+          onClick={e => {
+            navigate('/apartments/new')
+          }}
+        >
+          Add new Apartment
+        </AddButton>
+      )}
     </>
   )
 }
