@@ -46,16 +46,6 @@ const auth = async (req, res, next) => {
   }
 }
 
-const isAdmin = async (req, res, next) => {
-  if (req.user.role === 2) {
-    next()
-  } else {
-    res
-      .status(403)
-      .send({error: "You don't have permission to access this route."})
-  }
-}
-
 const handleBasicAuth = async (req, res, next) => {
   try {
     const basicString = req.header('Authorization').replace('Basic ', '')
@@ -77,4 +67,4 @@ const handleBasicAuth = async (req, res, next) => {
   }
 }
 
-module.exports = {auth, handleBasicAuth, isAdmin}
+module.exports = {auth, handleBasicAuth}

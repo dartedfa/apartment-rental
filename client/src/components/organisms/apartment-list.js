@@ -4,7 +4,7 @@ import {jsx} from '@emotion/react'
 
 import * as React from 'react'
 import {useApartments} from '../../utils/apartments'
-import {FullPageSpinner, Spinner} from '../atoms/Spinner'
+import {FullPageSpinner} from '../atoms/Spinner'
 import {ApartmentListUL} from '../atoms/apartment-list'
 import {ApartmentRow} from '../molecules/apartment-row'
 import GoogleMap from './GoogleMap'
