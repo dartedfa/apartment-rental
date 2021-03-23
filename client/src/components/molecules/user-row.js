@@ -10,9 +10,10 @@ import {useAuth} from '../../context/auth-context'
 import {ActionButton} from '../atoms/Button'
 import {useRemoveUser} from '../../utils/users'
 import {AiTwotoneEdit, FaMinusCircle} from 'react-icons/all'
+import Avatar from '../atoms/avatar'
 
 function UserRow({users}) {
-  const {email, firstName, lastName, userType, verified, role} = users
+  const {email, firstName, lastName, userType, verified, role, avatar} = users
   const [handleRemoveUser] = useRemoveUser()
   const {user} = useAuth()
 
@@ -59,11 +60,7 @@ function UserRow({users}) {
             },
           }}
         >
-          <img
-            alt={`${firstName} apartment cover`}
-            css={{maxHeight: '100%', width: '100%'}}
-            src={userPlaceholderSvg}
-          />
+          <Avatar src={avatar} width={'100%'} height={'100%'} />
         </div>
         <div css={{flex: 1}}>
           <div css={{display: 'flex', justifyContent: 'space-between'}}>

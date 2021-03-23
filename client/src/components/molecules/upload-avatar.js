@@ -53,7 +53,7 @@ function UploadAvatar({avatar, onAvatarChange}) {
             marginLeft: '1rem',
           }}
         >
-          Click to change avatar
+          Click here or drop change avatar
         </p>
       </div>
       {error && <p>{error}</p>}

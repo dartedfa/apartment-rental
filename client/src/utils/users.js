@@ -42,9 +42,12 @@ function onUpdateMutation(newItem) {
   const previousItems = queryCache.getQueryData('users')
 
   queryCache.setQueryData('users', old => {
-    return old.map(item => {
-      return item._id === newItem._id ? {...item, ...newItem} : item
-    })
+    return (
+      old &&
+      old.map(item => {
+        return item._id === newItem._id ? {...item, ...newItem} : item
+      })
+    )
   })
 
   queryCache.setQueryData(['users', {userId: newItem._id}], newItem)
