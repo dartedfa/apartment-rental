@@ -73,7 +73,7 @@ function UserRow({users}) {
                   color: colors.indigo,
                 }}
               >
-                {firstName}
+                {firstName} {lastName}
               </h2>
             </div>
             <div css={{marginLeft: 10, flex: 1}}>
