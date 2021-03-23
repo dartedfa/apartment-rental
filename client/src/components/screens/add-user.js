@@ -12,7 +12,7 @@ function AddUserScreen() {
       <h1>Add User</h1>
       <UserForm
         handleSubmit={data => {
-          handleSubmitCreation(data)
+          handleSubmitCreation({...data, userType: 'regular'})
           navigate('/')
         }}
         title="Add User"
