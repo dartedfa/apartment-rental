@@ -31,7 +31,7 @@ export function validateEmptyFields(state, except = {}) {
 export function validateUserForm(state, except = {}) {
   const isValid = validateEmptyFields(state, except)
 
-  if (!isValid) return 'Please fill al fields.'
+  if (!isValid) return 'Please fill all fields.'
 
   const {email, password} = state
 
