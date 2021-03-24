@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
+const Apartment = require('../models/apartment')
 const {permission} = require('../middleware/permission')
 const {sendActivationEmail} = require('../emails/account')
 const {handleBasicAuth, auth} = require('../middleware/auth')
@@ -180,6 +181,18 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
     res.send({user, shouldDeleteToken})
   } catch (e) {
     res.status(400).send(e)
+  }
+})
+
+router.delete('/users/:id', auth, permission, async (req, res) => {
+  try {
+    const user = req.user
+    await Apartment.remove({realtor: user._id})
+    await user.remove()
+
+    res.send({success: true})
+  } catch (e) {
+    res.status(500).send(e)
   }
 })
 
