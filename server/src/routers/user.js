@@ -121,6 +121,13 @@ router.post('/users', auth, permission, async (req, res) => {
 
   try {
     await user.save()
+    const token = await user.generateAuthToken()
+
+    sendActivationEmail(
+      user.email,
+      user.firstName,
+      `${CLIENT_URL}/verify/${token}`,
+    )
     res.status(201).send(user)
   } catch (e) {
     res.status(400).send(e)
