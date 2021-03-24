@@ -60,8 +60,15 @@ function AuthProvider(props) {
   )
 
   const value = React.useMemo(
-    () => ({user, login, register, handleThirdPartyAuthentication, logout}),
-    [user, login, register, handleThirdPartyAuthentication, logout],
+    () => ({
+      user,
+      login,
+      register,
+      handleThirdPartyAuthentication,
+      logout,
+      setData,
+    }),
+    [user, login, register, handleThirdPartyAuthentication, logout, setData],
   )
 
   if (isLoading || isIdle) {

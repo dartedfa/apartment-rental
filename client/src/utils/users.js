@@ -1,6 +1,6 @@
 import {queryCache, useMutation, useQuery} from 'react-query'
-import {useClient} from 'context/auth-context'
-import {localStorageKey} from '../auth'
+import {useAuth, useClient} from 'context/auth-context'
+import {handleUserResponse, localStorageKey} from '../auth'
 
 // Initialize Loading users and loadingUser
 
@@ -74,6 +74,27 @@ function useUpdateUser(options) {
   )
 }
 
+function useUpdateMe(options) {
+  const client = useClient()
+  const {setData} = useAuth()
+  return useMutation(
+    updates =>
+      client(`users/${updates._id}`, {
+        method: 'PATCH',
+        data: {
+          ...updates,
+        },
+      }),
+    {
+      onSuccess: ({user}) => {
+        setData({...user, token: localStorage.getItem(localStorageKey)})
+      },
+      ...defaultMutationOptions,
+      ...options,
+    },
+  )
+}
+
 function useCreateUser(options) {
   const client = useClient()
 
@@ -113,6 +134,7 @@ export {
   useUsers,
   useUser,
   useUpdateUser,
+  useUpdateMe,
   useRemoveUser,
   useCreateUser,
   useVerifyUser,

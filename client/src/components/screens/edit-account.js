@@ -1,6 +1,6 @@
 import UserForm from '../organisms/forms/UserForm'
 import * as React from 'react'
-import {useUpdateUser} from '../../utils/users'
+import {useUpdateMe, useUpdateUser} from '../../utils/users'
 import {useAuth} from '../../context/auth-context'
 import {useNavigate} from 'react-router'
 import UploadAvatar from '../molecules/upload-avatar'
@@ -14,7 +14,7 @@ const exceptions = {
 }
 
 function EditAccountScreen() {
-  const [handleSubmitUpdate] = useUpdateUser({throwOnError: true})
+  const [handleSubmitUpdate] = useUpdateMe({throwOnError: true})
   const {user} = useAuth()
 
   const [avatar, setAvatar] = useState(user.avatar || '')
