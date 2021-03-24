@@ -13,8 +13,8 @@ router.post('/apartments', auth, canCrudApartment, async (req, res) => {
   try {
     await apartment.save()
     res.status(201).send(apartment)
-  } catch (e) {
-    res.status(400).send(e)
+  } catch (error) {
+    res.status(400).send(error)
   }
 })
 
@@ -27,8 +27,8 @@ router.get('/apartments', auth, async (req, res) => {
   const apartments = await Apartment.find(match).sort({_id: -1})
   try {
     res.status(200).send(apartments)
-  } catch (e) {
-    res.status(500).send()
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
@@ -41,7 +41,7 @@ router.get('/apartments/:id', auth, async (req, res) => {
     const {firstName, lastName, email} = await User.findById(apartment.realtor)
 
     if (!apartment) {
-      return res.status(404).send()
+      return res.status(404).send({error: 'Apartment not found'})
     }
 
     if (!apartment.isAvailable && isClient) {
@@ -49,8 +49,8 @@ router.get('/apartments/:id', auth, async (req, res) => {
     }
 
     res.send({apartment, realtor: {firstName, lastName, email}})
-  } catch (e) {
-    res.status(500).send()
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
@@ -61,15 +61,15 @@ router.patch('/apartments/:id', auth, canCrudApartment, async (req, res) => {
     const apartment = await Apartment.findOne({_id: req.params.id})
 
     if (!apartment) {
-      return res.status(404).send()
+      return res.status(404).send({error: 'Apartment not found'})
     }
 
     updates.forEach(update => (apartment[update] = req.body[update]))
 
     await apartment.save()
     res.send(apartment)
-  } catch (e) {
-    res.status(400).send(e)
+  } catch (error) {
+    res.status(400).send(error)
   }
 })
 
@@ -78,12 +78,12 @@ router.delete('/apartments/:id', auth, canCrudApartment, async (req, res) => {
     const apartment = await Apartment.findOneAndDelete({_id: req.params.id})
 
     if (!apartment) {
-      res.status(404).send()
+      res.status(404).send({error: 'Apartment not found'})
     }
 
     res.status(200).send(apartment)
-  } catch (e) {
-    res.status(500).send()
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 

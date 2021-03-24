@@ -87,8 +87,8 @@ router.post('/logout', auth, async (req, res) => {
     await req.user.save()
 
     res.send({success: true})
-  } catch (e) {
-    res.status(500).send()
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
@@ -110,7 +110,7 @@ router.post('/verify', auth, async (req, res) => {
 
     res.status(200).send({verified: true})
   } catch (error) {
-    res.status(400).send()
+    res.status(400).send(error)
   }
 })
 
@@ -129,8 +129,8 @@ router.post('/users', auth, permission, async (req, res) => {
       `${CLIENT_URL}/verify/${token}`,
     )
     res.status(201).send(user)
-  } catch (e) {
-    res.status(400).send(e)
+  } catch (error) {
+    res.status(400).send(error)
   }
 })
 
@@ -144,8 +144,8 @@ router.get('/users', auth, async (req, res) => {
       _id: {$ne: req.user._id},
     }).sort({_id: -1})
     res.status(200).send(users)
-  } catch (e) {
-    res.status(500).send(e)
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
@@ -156,8 +156,8 @@ router.get('/users/:id', auth, permission, async (req, res) => {
     const user = await User.findById({_id})
 
     res.status(200).send({user})
-  } catch (e) {
-    res.status(500).send()
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
@@ -192,8 +192,8 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
 
     await user.save()
     res.send({user, shouldDeleteToken})
-  } catch (e) {
-    res.status(400).send(e)
+  } catch (error) {
+    res.status(400).send(error)
   }
 })
 
@@ -204,8 +204,8 @@ router.delete('/users/:id', auth, async (req, res) => {
     await user.remove()
 
     res.send({success: true})
-  } catch (e) {
-    res.status(500).send(e)
+  } catch (error) {
+    res.status(500).send(error)
   }
 })
 
