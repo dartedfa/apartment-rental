@@ -12,6 +12,7 @@ import {useAuth} from '../../../context/auth-context'
 import {useUsers} from '../../../utils/users'
 import * as colors from '../../../styles/colors'
 import {Spinner} from '../../atoms/Spinner'
+import {validateEmptyFields} from '../../../utils/helpers'
 
 function RealtorsInput({setSingleState, realtor}) {
   const {data: users = [], isLoading} = useUsers()
@@ -54,6 +55,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
     latitude: apartment?.latitude || '',
     realtor: apartment?.realtor || '',
   })
+  const [error, setError] = useState('')
 
   const {
     name,
@@ -88,7 +90,17 @@ function ApartmentForm({handleSubmit, action, apartment}) {
 
   const handleValidateBeforeSubmit = event => {
     event.preventDefault()
-    handleSubmit({...state, realtor: isRealtor ? user._id : realtor})
+    const updatedRealtorState = {
+      ...state,
+      realtor: isRealtor ? user._id : realtor,
+    }
+    const isValid = validateEmptyFields(updatedRealtorState)
+
+    if (!isValid) {
+      return setError('Please fill all fields.')
+    }
+
+    handleSubmit(updatedRealtorState)
   }
 
   return (
@@ -97,6 +109,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
       onSubmit={handleValidateBeforeSubmit}
       css={{backgroundColor: colors.base, border: `1px solid ${colors.gray}`}}
     >
+      {!!error && <p>{error}</p>}
       <FormGroup
         css={{
           flexDirection: 'row',

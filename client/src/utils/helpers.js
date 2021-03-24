@@ -10,15 +10,15 @@ export function isLongitude(num) {
 
 export function validateEmptyFields(state) {
   const keys = Object.keys(state)
-  let isValid
+  let isValid = true
 
   keys.forEach(key => {
     if (!state[key]) {
-      return (isValid = false)
+      isValid = false
     }
   })
 
-  return true
+  return isValid
 }
 
 export function validateUserForm(state) {
