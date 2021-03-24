@@ -39,7 +39,7 @@ function UserForm({handleSubmit, title, user, serverError, reset}) {
   const handleValidateBeforeSubmit = event => {
     event.preventDefault()
     setError('')
-    reset()
+    reset && reset()
     const error = validateUserForm(state)
     if (error) {
       return setError(error)

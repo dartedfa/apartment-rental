@@ -23,7 +23,7 @@ function AddUserScreen() {
             userType: 'regular',
             avatar,
           }).then(response => {
-            navigate('/')
+            navigate('/users')
           })
         }}
         serverError={isError ? 'Email address is already taken.' : null}
