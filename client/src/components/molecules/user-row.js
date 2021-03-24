@@ -2,6 +2,7 @@
  /** @jsx jsx */
 import {jsx} from '@emotion/react'
 
+import {useState} from 'react'
 import {Link} from 'react-router-dom'
 import * as colors from 'styles/colors'
 import * as mq from 'styles/media-queries'
@@ -10,12 +11,13 @@ import {ActionButton} from '../atoms/Button'
 import {useRemoveUser} from '../../utils/users'
 import {AiTwotoneEdit, FaMinusCircle} from 'react-icons/all'
 import Avatar from '../atoms/avatar'
+import PromptMessage from '../atoms/prompt-message'
 
 function UserRow({users}) {
   const {email, firstName, lastName, userType, verified, role, avatar} = users
   const [handleRemoveUser] = useRemoveUser()
   const {user} = useAuth()
-
+  const [showDialog, setShowDialog] = useState(false)
   const userRole = ['User', 'Realtor', 'Admin']
 
   const isAdmin = user.role === 2
@@ -111,10 +113,18 @@ function UserRow({users}) {
             <ActionButton async={false} icon={<AiTwotoneEdit />} />
           </Link>
           <ActionButton
-            async={true}
+            async={false}
             icon={<FaMinusCircle />}
-            onClick={() => handleRemoveUser({_id: users._id})}
+            onClick={() => setShowDialog(true)}
           />
+          {showDialog && (
+            <PromptMessage
+              onContinue={() => handleRemoveUser({_id: users._id})}
+              onCancel={() => setShowDialog(false)}
+            >
+              Are you sure you want to remove this user ?
+            </PromptMessage>
+          )}
         </div>
       )}
     </div>

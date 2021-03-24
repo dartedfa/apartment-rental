@@ -10,9 +10,12 @@ import {useAuth} from '../../context/auth-context'
 import {ActionButton} from '../atoms/Button'
 import {useRemoveApartment} from '../../utils/apartments'
 import {AiTwotoneEdit, FaMinusCircle} from 'react-icons/all'
+import {useState} from 'react'
+import PromptMessage from '../atoms/prompt-message'
 
 function ApartmentRow({apartment}) {
   const {name, description, rooms, price, size, isAvailable} = apartment
+  const [showDialog, setShowDialog] = useState(false)
   const [handleRemoveApartment] = useRemoveApartment()
   const {user} = useAuth()
 
@@ -124,10 +127,18 @@ function ApartmentRow({apartment}) {
             <ActionButton async={false} icon={<AiTwotoneEdit />} />
           </Link>
           <ActionButton
-            async={true}
+            async={false}
             icon={<FaMinusCircle />}
-            onClick={() => handleRemoveApartment({_id: apartment._id})}
+            onClick={() => setShowDialog(true)}
           />
+          {showDialog && (
+            <PromptMessage
+              onContinue={() => handleRemoveApartment({_id: apartment._id})}
+              onCancel={() => setShowDialog(false)}
+            >
+              Are you sure you want to remove this apartment ?
+            </PromptMessage>
+          )}
         </div>
       )}
     </div>
