@@ -31,6 +31,7 @@ function EditUserScreen() {
       <UserForm
         user={user}
         title="Edit User"
+        except={{password: true}}
         handleSubmit={data => {
           handleSubmitUpdate({...data, target: data._id, avatar})
           navigate('/users')

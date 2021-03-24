@@ -12,7 +12,14 @@ import {useLocation} from 'react-router'
 import * as colors from '../../../styles/colors'
 import {validateUserForm} from '../../../utils/helpers'
 
-function UserForm({handleSubmit, title, user, serverError, reset}) {
+function UserForm({
+  handleSubmit,
+  title,
+  user,
+  serverError,
+  reset,
+  except = {},
+}) {
   const [state, setState] = useState({
     _id: user?._id,
     email: user?.email || '',
@@ -40,7 +47,7 @@ function UserForm({handleSubmit, title, user, serverError, reset}) {
     event.preventDefault()
     setError('')
     reset && reset()
-    const error = validateUserForm(state)
+    const error = validateUserForm(state, except)
     if (error) {
       return setError(error)
     }

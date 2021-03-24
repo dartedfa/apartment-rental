@@ -14,7 +14,12 @@ export function validateEmptyFields(state, except = {}) {
   let isValid = true
 
   keys.forEach(key => {
-    if (key === '_id' || !R.isEmpty(state[key]) || !!except[key]) return
+    if (
+      key === '_id' ||
+      !R.isEmpty(state[key]) ||
+      (!!except[key] && !!R.isEmpty(state[key]))
+    )
+      return
     if (!state[key]) {
       isValid = false
     }
@@ -23,10 +28,11 @@ export function validateEmptyFields(state, except = {}) {
   return isValid
 }
 
-export function validateUserForm(state) {
-  const isValid = validateEmptyFields(state)
+export function validateUserForm(state, except = {}) {
+  const isValid = validateEmptyFields(state, except)
 
   if (!isValid) return 'Please fill al fields.'
+  if (except['password'] && !state['password']) return
 
   const {email, password} = state
 

@@ -17,12 +17,15 @@ function EditAccountScreen() {
   const handleSubmit = data => {
     const {email, password, firstName, lastName} = data
 
-    const error = validateUserForm({
-      email,
-      password,
-      firstName,
-      lastName,
-    })
+    const error = validateUserForm(
+      {
+        email,
+        password,
+        firstName,
+        lastName,
+      },
+      {password: true},
+    )
     //console.log(error, password)
 
     handleSubmitUpdate({...data, avatar})
