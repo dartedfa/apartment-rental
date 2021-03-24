@@ -201,7 +201,7 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
 router.delete('/users/:id', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-    await Apartment.remove({realtor: user._id})
+    await Apartment.deleteMany({realtor: user._id})
     await user.remove()
 
     res.send({success: true})
