@@ -10,6 +10,7 @@ import {Button} from '../../atoms/Button'
 import {useAuth} from '../../../context/auth-context'
 import {useLocation} from 'react-router'
 import * as colors from '../../../styles/colors'
+import {validateUserForm} from '../../../utils/helpers'
 
 function UserForm({handleSubmit, title, user}) {
   const [state, setState] = useState({
@@ -18,12 +19,11 @@ function UserForm({handleSubmit, title, user}) {
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     role: user?.role || 0,
-    userType: user?.userType || '',
-    verified: user?.verified || false,
     password: '',
   })
+  const [error, setError] = useState('')
 
-  const {email, firstName, lastName, role, userType, verified} = state
+  const {email, firstName, lastName, role} = state
   const {pathname} = useLocation()
   const {user: account} = useAuth()
 
@@ -38,6 +38,12 @@ function UserForm({handleSubmit, title, user}) {
 
   const handleValidateBeforeSubmit = event => {
     event.preventDefault()
+
+    const error = validateUserForm(state)
+    if (error) {
+      return setError(error)
+    }
+
     handleSubmit(state)
   }
 
@@ -49,6 +55,7 @@ function UserForm({handleSubmit, title, user}) {
         backgroundColor: colors.base,
       }}
     >
+      {!!error && <p>{error}</p>}
       <FormGroup inLine={true}>
         <label htmlFor="firstName">Firstname</label>
         <Input

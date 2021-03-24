@@ -13,6 +13,7 @@ export function validateEmptyFields(state) {
   let isValid = true
 
   keys.forEach(key => {
+    if (key === '_id' || state[key] === 0) return
     if (!state[key]) {
       isValid = false
     }
