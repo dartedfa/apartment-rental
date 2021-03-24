@@ -1,4 +1,5 @@
 import isEmail from 'validator/lib/isEmail'
+import * as R from 'ramda'
 
 export function isLatitude(num) {
   return isFinite(num) && Math.abs(num) <= 90
@@ -9,11 +10,12 @@ export function isLongitude(num) {
 }
 
 export function validateEmptyFields(state) {
+  console.log(state)
   const keys = Object.keys(state)
   let isValid = true
 
   keys.forEach(key => {
-    if (key === '_id' || state[key] === 0) return
+    if (key === '_id' || !R.isEmpty(state[key])) return
     if (!state[key]) {
       isValid = false
     }
