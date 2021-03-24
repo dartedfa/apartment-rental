@@ -1,21 +1,29 @@
-const sgMail = require('@sendgrid/mail')
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const nodemailer = require('nodemailer')
 
 const sendActivationEmail = (email = '', name = '', url = '') => {
-  console.log(name)
-  sgMail
-    .send({
-      templateId: process.env.SENDGRID_TEMPLATE_ID,
-      to: email,
-      from: 'davit.varamashvili@gmail.com',
-      replyTo: 'davit.varamashvili@gmail.com',
-      dynamic_template_data: {
-        name: name,
-        url: url,
-      },
-    })
-    .catch(error => console.log(error))
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.ethereal.email',
+    auth: {
+      user: 'dvaramash@gmail.com',
+      pass: process.env.GMAIL_PASSWORD,
+    },
+  })
+
+  const mailOptions = {
+    from: 'dvaramash@gmail.com',
+    to: email,
+    subject: 'Welcome to Apartment rental',
+    html: `<h1>Apartment Rental</h1><br>
+            <p>Hello ${name}, Thanks for joining Apartment Rental</p><br>
+            <a href=${url}> Please activate your account </a>`,
+  }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      throw new Error('Unable to send email.')
+    }
+  })
 }
 
 module.exports = {
