@@ -10,8 +10,8 @@ import {useState} from 'react'
 function EditUserScreen() {
   const navigate = useNavigate()
   const {userId} = useParams()
-
-  const {data: user = {}, isLoading, error} = useUser(userId)
+  const [error, setError] = useState(false)
+  const {data: user = {}, isLoading} = useUser(userId)
   const [handleSubmitUpdate] = useUpdateUser({throwOnError: true})
   const [avatar, setAvatar] = useState(user.avatar || '')
 
@@ -32,9 +32,12 @@ function EditUserScreen() {
         user={user}
         title="Edit User"
         except={{password: true}}
+        serverError={error && 'Email address is already taken.'}
         handleSubmit={data => {
-          handleSubmitUpdate({...data, target: data._id, avatar})
-          navigate('/users')
+          handleSubmitUpdate({...data, target: data._id, avatar}).then(
+            response => navigate('/users'),
+            error => setError(true),
+          )
         }}
       />
     </>
