@@ -1,11 +1,10 @@
 import UserForm from '../organisms/forms/UserForm'
 import * as React from 'react'
-import {useUpdateMe, useUpdateUser} from '../../utils/users'
+import {useUpdateMe} from '../../utils/users'
 import {useAuth} from '../../context/auth-context'
 import {useNavigate} from 'react-router'
 import UploadAvatar from '../molecules/upload-avatar'
 import {useState} from 'react'
-import {validateUserForm} from '../../utils/helpers'
 
 const exceptions = {
   regular: {password: true},
@@ -14,15 +13,19 @@ const exceptions = {
 }
 
 function EditAccountScreen() {
-  const [handleSubmitUpdate] = useUpdateMe({throwOnError: true})
+  const [handleSubmitUpdate] = useUpdateMe({
+    throwOnError: true,
+  })
   const {user} = useAuth()
-
+  const [error, setError] = useState('')
   const [avatar, setAvatar] = useState(user.avatar || '')
   const navigate = useNavigate()
 
   const handleSubmit = data => {
-    handleSubmitUpdate({...data, avatar})
-    navigate('/')
+    handleSubmitUpdate({...data, avatar}).then(
+      response => navigate('/'),
+      error => setError('Email is already taken.'),
+    )
   }
 
   return (
@@ -36,6 +39,7 @@ function EditAccountScreen() {
         title="Edit account"
         handleSubmit={handleSubmit}
         except={exceptions[user.userType]}
+        serverError={error && error}
       />
     </>
   )
