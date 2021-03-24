@@ -189,8 +189,9 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
       console.log(shouldDeleteToken)
       user.tokens = []
     }
-
     await user.save()
+    delete user['password']
+
     res.send({user, shouldDeleteToken})
   } catch (error) {
     res.status(400).send(error)

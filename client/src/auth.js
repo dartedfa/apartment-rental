@@ -50,6 +50,7 @@ export {
   getToken,
   register,
   login,
+  handleUserResponse,
   handleThirdPartyAuthentication,
   logout,
   localStorageKey,
