@@ -33,7 +33,7 @@ router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
   try {
     let user = await User.findOne({email: req.body.email})
 
-    if (user.userType === 'regular') {
+    if (user && user.userType === 'regular') {
       return res.status(400).send({error: `Can't create account.`})
     }
 
@@ -196,9 +196,9 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
   }
 })
 
-router.delete('/users/:id', auth, permission, async (req, res) => {
+router.delete('/users/:id', auth, async (req, res) => {
   try {
-    const user = req.user
+    const user = await User.findById(req.params.id)
     await Apartment.remove({realtor: user._id})
     await user.remove()
 

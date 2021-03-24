@@ -32,12 +32,12 @@ export function validateUserForm(state, except = {}) {
   const isValid = validateEmptyFields(state, except)
 
   if (!isValid) return 'Please fill al fields.'
-  if (except['password'] && !state['password']) return
 
   const {email, password} = state
 
   if (!isEmail(email)) return 'Please provide correct E-mail.'
 
+  if (except['password'] && !password) return false
   if (password.length < 6) return 'Please provide strong Password.'
 
   return false

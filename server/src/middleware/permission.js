@@ -6,7 +6,7 @@ const permission = async (req, res, next) => {
       return res.status(403).send({error: `Insufficient permission.`})
     }
 
-    const target = req.body.target || req.query.target || req.params.id
+    const target = req.body.target || req.query.target
 
     if (!target) {
       return next()
