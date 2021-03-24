@@ -11,6 +11,7 @@ const permission = async (req, res, next) => {
     if (!target) {
       return next()
     }
+    req.target = target
     const user = await User.findOne({_id: target})
 
     req.user = user

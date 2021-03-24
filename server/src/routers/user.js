@@ -185,7 +185,8 @@ router.patch('/users/:id', auth, permission, async (req, res) => {
       oldUser['email'] !== user['email'] ||
       oldUser['role'] !== user['role']
     ) {
-      shouldDeleteToken = true
+      shouldDeleteToken = !req.target
+      console.log(shouldDeleteToken)
       user.tokens = []
     }
 
