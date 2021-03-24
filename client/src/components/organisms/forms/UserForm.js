@@ -12,7 +12,7 @@ import {useLocation} from 'react-router'
 import * as colors from '../../../styles/colors'
 import {validateUserForm} from '../../../utils/helpers'
 
-function UserForm({handleSubmit, title, user}) {
+function UserForm({handleSubmit, title, user, serverError, reset}) {
   const [state, setState] = useState({
     _id: user?._id,
     email: user?.email || '',
@@ -38,7 +38,8 @@ function UserForm({handleSubmit, title, user}) {
 
   const handleValidateBeforeSubmit = event => {
     event.preventDefault()
-
+    setError('')
+    reset()
     const error = validateUserForm(state)
     if (error) {
       return setError(error)
@@ -55,7 +56,7 @@ function UserForm({handleSubmit, title, user}) {
         backgroundColor: colors.base,
       }}
     >
-      {!!error && <p>{error}</p>}
+      {(!!error || !!serverError) && <p>{error || serverError}</p>}
       <FormGroup inLine={true}>
         <label htmlFor="firstName">Firstname</label>
         <Input

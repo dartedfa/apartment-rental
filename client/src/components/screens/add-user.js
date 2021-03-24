@@ -6,7 +6,9 @@ import UploadAvatar from '../molecules/upload-avatar'
 import {useState} from 'react'
 
 function AddUserScreen() {
-  const [handleSubmitCreation] = useCreateUser({throwOnError: true})
+  const [handleSubmitCreation, {isError, reset}] = useCreateUser({
+    throwOnError: true,
+  })
   const [avatar, setAvatar] = useState('')
   const navigate = useNavigate()
 
@@ -16,9 +18,16 @@ function AddUserScreen() {
       <UploadAvatar avatar={avatar} onAvatarChange={setAvatar} />
       <UserForm
         handleSubmit={data => {
-          handleSubmitCreation({...data, userType: 'regular', avatar})
-          navigate('/')
+          handleSubmitCreation({
+            ...data,
+            userType: 'regular',
+            avatar,
+          }).then(response => {
+            navigate('/')
+          })
         }}
+        serverError={isError ? 'Email address is already taken.' : null}
+        reset={reset}
         title="Add User"
       />
     </>
