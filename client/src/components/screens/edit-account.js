@@ -7,6 +7,12 @@ import UploadAvatar from '../molecules/upload-avatar'
 import {useState} from 'react'
 import {validateUserForm} from '../../utils/helpers'
 
+const exceptions = {
+  regular: {password: true},
+  google: {password: true, email: true},
+  facebook: {password: true, email: true},
+}
+
 function EditAccountScreen() {
   const [handleSubmitUpdate] = useUpdateUser({throwOnError: true})
   const {user} = useAuth()
@@ -15,19 +21,6 @@ function EditAccountScreen() {
   const navigate = useNavigate()
 
   const handleSubmit = data => {
-    const {email, password, firstName, lastName} = data
-
-    const error = validateUserForm(
-      {
-        email,
-        password,
-        firstName,
-        lastName,
-      },
-      {password: true},
-    )
-    //console.log(error, password)
-
     handleSubmitUpdate({...data, avatar})
     navigate('/')
   }
@@ -38,7 +31,12 @@ function EditAccountScreen() {
       {user.userType === 'regular' && (
         <UploadAvatar avatar={avatar} onAvatarChange={setAvatar} />
       )}
-      <UserForm user={user} title="Edit account" handleSubmit={handleSubmit} />
+      <UserForm
+        user={user}
+        title="Edit account"
+        handleSubmit={handleSubmit}
+        except={exceptions[user.userType]}
+      />
     </>
   )
 }
