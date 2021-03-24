@@ -34,6 +34,14 @@ function ApartmentRow({apartment}) {
         backgroundColor: colors.base,
       }}
     >
+      {showDialog && canChangeApartment && (
+        <PromptMessage
+          onContinue={() => handleRemoveApartment({_id: apartment._id})}
+          onCancel={() => setShowDialog(false)}
+        >
+          Are you sure you want to remove this apartment ?
+        </PromptMessage>
+      )}
       <Link
         aria-labelledby={id}
         to={`/apartments/${apartment._id}`}
@@ -131,14 +139,6 @@ function ApartmentRow({apartment}) {
             icon={<FaMinusCircle />}
             onClick={() => setShowDialog(true)}
           />
-          {showDialog && (
-            <PromptMessage
-              onContinue={() => handleRemoveApartment({_id: apartment._id})}
-              onCancel={() => setShowDialog(false)}
-            >
-              Are you sure you want to remove this apartment ?
-            </PromptMessage>
-          )}
         </div>
       )}
     </div>
