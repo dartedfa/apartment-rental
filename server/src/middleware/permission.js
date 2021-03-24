@@ -2,16 +2,21 @@ const User = require('../models/user')
 
 const permission = async (req, res, next) => {
   try {
-    if (req.user.role < 2) {
-      return res.status(403).send({error: `Insufficient permission.`})
-    }
+    let target = req.body.target || req.query.target
 
-    const target = req.body.target || req.query.target
+    if (req.user._id != req.params.id && !target) {
+      target = req.params.id
+    }
 
     if (!target) {
       return next()
     }
+
     req.target = target
+    if (req.user.role < 2) {
+      return res.status(403).send({error: `Insufficient permission.`})
+    }
+
     const user = await User.findOne({_id: target})
 
     req.user = user
