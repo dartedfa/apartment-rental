@@ -11,6 +11,35 @@ import GoogleMap from '../GoogleMap'
 import {useAuth} from '../../../context/auth-context'
 import {useUsers} from '../../../utils/users'
 import * as colors from '../../../styles/colors'
+import {Spinner} from '../../atoms/Spinner'
+
+function RealtorsInput({setSingleState, realtor}) {
+  const {data: users = [], isLoading} = useUsers()
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  return (
+    <FormGroup inLine={true}>
+      <label htmlFor="realtors">Realtors</label>
+      <select id="realtor" onChange={setSingleState} value={realtor}>
+        <option value="">Select Realtor</option>
+        {users.map(user => {
+          if (user.role !== 1) {
+            return false
+          }
+
+          return (
+            <option key={user._id} value={user._id}>
+              {user.firstName} {user.lastName} {user.email}
+            </option>
+          )
+        })}
+      </select>
+    </FormGroup>
+  )
+}
 
 function ApartmentForm({handleSubmit, action, apartment}) {
   const [state, setState] = useState({
@@ -38,10 +67,9 @@ function ApartmentForm({handleSubmit, action, apartment}) {
     realtor,
   } = state
 
-  const {data: users = [], isLoading} = useUsers()
-
   const {user} = useAuth()
   const isAdmin = user.role === 2
+  const isRealtor = user.role === 1
 
   const changePosition = ({lng, lat}) => {
     setState(prevState => ({
@@ -60,7 +88,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
 
   const handleValidateBeforeSubmit = event => {
     event.preventDefault()
-    handleSubmit(state)
+    handleSubmit({...state, realtor: isRealtor ? user._id : realtor})
   }
 
   return (
@@ -140,23 +168,7 @@ function ApartmentForm({handleSubmit, action, apartment}) {
         />
       </FormGroup>
       {isAdmin && (
-        <FormGroup inLine={true}>
-          <label htmlFor="realtors">Realtors</label>
-          <select id="realtors" onChange={setSingleState} value={realtor}>
-            <option value="">Select Realtor</option>
-            {users.map(user => {
-              if (user.role !== 1) {
-                return false
-              }
-
-              return (
-                <option key={user._id} value={user._id}>
-                  {user.firstName} {user.lastName} {user.email}
-                </option>
-              )
-            })}
-          </select>
-        </FormGroup>
+        <RealtorsInput setSingleState={setSingleState} realtor={realtor} />
       )}
       <div css={{textAlign: 'right'}}>
         <Button type="submit" variant="secondary">

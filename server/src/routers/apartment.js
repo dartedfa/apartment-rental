@@ -8,7 +8,6 @@ const router = new express.Router()
 router.post('/apartments', auth, canCrudApartment, async (req, res) => {
   const apartment = new Apartment({
     ...req.body,
-    realtor: req.user._id,
   })
 
   try {
