@@ -32,6 +32,10 @@ router.post('/register', handleBasicAuth, async (req, res) => {
 router.post('/third-party-auth', handleBasicAuth, async (req, res) => {
   try {
     let user = await User.findOne({email: req.body.email})
+    if (user.userType === 'regular') {
+      return res.status(400).send({error: `Can't create account.`})
+    }
+
     if (user) user['avatar'] = req.body.avatar
 
     if (!user) {
