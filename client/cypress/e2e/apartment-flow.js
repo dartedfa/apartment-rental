@@ -1,18 +1,23 @@
 import {buildApartment} from '../../src/test/generate'
 
-// Before running this tests we want to be sure that user is created and realtor.
+// Before running this tests we want to be sure that user is created.
 const user = {
   email: "test-apartment-rental@gmail.com",
   password: 'test-apartment-pass'
 }
 
+// This is important !
+// We need to create another user with role of realtor before running test.
+// email of john.doe@gmail.com
+// firstname John, lastName: Doe.
+
 const realtorId = '605bd17f1cf7911cbfb646ac'
 
-describe('smoke', () => {
-  it('should allow a typical user flow', () => {
+describe('Apartment create/remove functionality', () => {
+  it('should allow a typical realtor flow.', () => {
     cy.visit('/')
     const apartment = buildApartment()
-    console.log(apartment)
+
     cy.findByRole('button', {name: /login/i}).click()
 
     cy.findByRole('dialog').within(() => {
