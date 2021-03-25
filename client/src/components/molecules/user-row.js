@@ -34,6 +34,14 @@ function UserRow({users}) {
         backgroundColor: colors.base,
       }}
     >
+      {showDialog && isAdmin && (
+        <PromptMessage
+          onContinue={() => handleRemoveUser({_id: users._id})}
+          onCancel={() => setShowDialog(false)}
+        >
+          Are you sure you want to remove this user ?
+        </PromptMessage>
+      )}
       <Link
         aria-labelledby={id}
         to={`/users/edit/${users._id}`}
@@ -117,14 +125,6 @@ function UserRow({users}) {
             icon={<FaMinusCircle />}
             onClick={() => setShowDialog(true)}
           />
-          {showDialog && (
-            <PromptMessage
-              onContinue={() => handleRemoveUser({_id: users._id})}
-              onCancel={() => setShowDialog(false)}
-            >
-              Are you sure you want to remove this user ?
-            </PromptMessage>
-          )}
         </div>
       )}
     </div>
