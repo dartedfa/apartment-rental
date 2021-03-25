@@ -127,6 +127,7 @@ function ApartmentRow({apartment}) {
             <ActionButton async={false} icon={<AiTwotoneEdit />} />
           </Link>
           <ActionButton
+            data-cy={'remove-button'}
             async={false}
             icon={<FaMinusCircle />}
             onClick={() => setShowDialog(true)}
