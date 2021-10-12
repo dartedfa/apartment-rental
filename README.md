@@ -30,4 +30,4 @@ Runs the app in the development mode and watches all the file changes
 
 Launches the test runner in the interactive watch mode.\
 
-### `Authored by: Davit Varamashvili`
+### `Authored by: Giorgi Gelashvili`

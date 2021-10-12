@@ -1,7 +1,7 @@
 {
   "name": "apartment-rental-server",
   "version": "1.0.0",
-  "author": "Davit Varamashvili <davit.varamashvili@gmail.com>",
+  "author": "Giorgi Gelashvili <giorgi.gelashvili128@gmail.com>",
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -f config/dev.env nodemon node src/index.js",
